@@ -5,14 +5,13 @@
   [cdkDragDisabled]="!canEditTasks()"
 >
   <mat-card>
-    @if (canEditTasks()) {
-      <div class="task-card__drag" cdkDragHandle aria-label="Drag task">
-        <mat-icon>drag_indicator</mat-icon>
-      </div>
-    }
-
     <div class="task-card__body">
       <div class="task-card__header">
+        @if (canEditTasks()) {
+          <div class="task-card__drag" cdkDragHandle aria-label="Drag task">
+            <mat-icon>drag_indicator</mat-icon>
+          </div>
+        }
         <span class="task-card__title">{{ task().title }}</span>
         @if (canEditTasks() || canDeleteTasks()) {
           <button

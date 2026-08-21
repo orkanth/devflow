@@ -4,8 +4,6 @@
 }
 
 .task-card mat-card {
-  display: flex;
-  gap: 4px;
   padding: 12px;
   border: 1px solid #e2e8f0;
   border-left-width: 4px;
@@ -50,10 +48,17 @@
 
 .task-card__drag {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 2px;
   color: #94a3b8;
   cursor: grab;
-  padding-top: 2px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .task-card__drag:active {
@@ -67,12 +72,13 @@
 
 .task-card__header {
   display: flex;
-  align-items: flex-start;
-  gap: 4px;
+  align-items: center;
+  gap: 2px;
 }
 
 .task-card__title {
   flex: 1;
+  min-width: 0;
   font-weight: 500;
   color: #0f172a;
   line-height: 1.4;
