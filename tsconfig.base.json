@@ -23,7 +23,8 @@
       "@devflow/web-feature-projects": [
         "./libs/web/feature-projects/src/index.ts"
       ],
-      "@devflow/web-feature-tasks": ["./libs/web/feature-tasks/src/index.ts"]
+      "@devflow/web-feature-tasks": ["./libs/web/feature-tasks/src/index.ts"],
+      "@devflow/web-feature-users": ["./libs/web/feature-users/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

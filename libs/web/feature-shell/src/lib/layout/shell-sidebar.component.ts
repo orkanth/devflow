@@ -21,5 +21,6 @@ export class ShellSidebarComponent {
     { label: 'Dashboard', route: '/dashboard', icon: 'dashboard' },
     { label: 'Projects', route: '/projects', icon: 'folder' },
     { label: 'Tasks', route: '/tasks', icon: 'assignment' },
+    { label: 'Users', route: '/users', icon: 'group' },
   ];
 }

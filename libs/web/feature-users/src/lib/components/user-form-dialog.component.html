@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Edit user' : 'New user' }}</h2>
+
+<mat-dialog-content>
+  <form class="user-form" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Full name</mat-label>
+      <input matInput formControlName="name" placeholder="e.g. Alex Chen" />
+      @if (form.controls.name.hasError('required') && form.controls.name.touched) {
+        <mat-error>Name is required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="alex@devflow.dev" />
+      @if (form.controls.email.hasError('required') && form.controls.email.touched) {
+        <mat-error>Email is required</mat-error>
+      }
+      @if (form.controls.email.hasError('email') && form.controls.email.touched) {
+        <mat-error>Enter a valid email</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        @for (role of roles; track role) {
+          <mat-option [value]="role">{{ role }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <button mat-flat-button color="primary" type="button" (click)="submit()">
+    {{ isEdit ? 'Save changes' : 'Create user' }}
+  </button>
+</mat-dialog-actions>

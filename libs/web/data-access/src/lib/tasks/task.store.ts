@@ -15,6 +15,7 @@ interface TaskState {
   error: string | null;
   searchQuery: string;
   filterProjectId: string | null;
+  filterAssigneeId: string | null;
 }
 
 const initialState: TaskState = {
@@ -23,6 +24,7 @@ const initialState: TaskState = {
   error: null,
   searchQuery: '',
   filterProjectId: null,
+  filterAssigneeId: null,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -35,14 +37,22 @@ export class TaskStore {
   readonly error = computed(() => this.state().error);
   readonly searchQuery = computed(() => this.state().searchQuery);
   readonly filterProjectId = computed(() => this.state().filterProjectId);
+  readonly filterAssigneeId = computed(() => this.state().filterAssigneeId);
 
   readonly visibleTasks = computed(() => {
     let list = this.tasks();
     const projectId = this.filterProjectId();
+    const assigneeId = this.filterAssigneeId();
     const query = this.searchQuery().trim().toLowerCase();
 
     if (projectId) {
       list = list.filter((task) => task.projectId === projectId);
+    }
+
+    if (assigneeId === '__unassigned__') {
+      list = list.filter((task) => !task.assigneeId);
+    } else if (assigneeId) {
+      list = list.filter((task) => task.assigneeId === assigneeId);
     }
 
     if (query) {
@@ -94,6 +104,10 @@ export class TaskStore {
     this.patch({ filterProjectId: projectId });
   }
 
+  setFilterAssigneeId(assigneeId: string | null): void {
+    this.patch({ filterAssigneeId: assigneeId });
+  }
+
   async loadTasks(): Promise<void> {
     this.patch({ loading: true, error: null });
     try {
@@ -124,9 +138,16 @@ export class TaskStore {
 
   async updateTask(id: string, data: UpdateTaskDto): Promise<boolean> {
     const previous = this.tasks();
-    const optimistic = previous.map((t) =>
-      t.id === id ? { ...t, ...data } : t,
-    );
+    const optimistic = previous.map((t) => {
+      if (t.id !== id) {
+        return t;
+      }
+      const assigneeId =
+        data.assigneeId === null
+          ? undefined
+          : data.assigneeId ?? t.assigneeId;
+      return { ...t, ...data, assigneeId };
+    });
     this.patch({ tasks: optimistic, error: null });
 
     try {

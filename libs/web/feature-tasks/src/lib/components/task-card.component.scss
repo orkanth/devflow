@@ -64,10 +64,22 @@
   margin-top: 10px;
 }
 
-.task-card__project {
+.task-card__assignee {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #475569;
+
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.task-card__project-row {
+  margin-top: 6px;
   font-size: 0.75rem;
   color: #94a3b8;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }

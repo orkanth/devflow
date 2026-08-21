@@ -21,7 +21,7 @@ import {
   TaskStatus,
   UpdateTaskDto,
 } from '@devflow/shared-types';
-import { MOCK_PROJECTS } from '@devflow/web-data-access';
+import { MOCK_PROJECTS, UserStore } from '@devflow/web-data-access';
 
 export interface TaskFormDialogData {
   task?: Task;
@@ -52,24 +52,30 @@ export class TaskFormDialogComponent implements OnInit {
     optional: true,
   }) ?? {};
   private readonly fb = inject(FormBuilder);
+  private readonly userStore = inject(UserStore);
 
   readonly projects = MOCK_PROJECTS;
+  readonly users = this.userStore.users;
   readonly isEdit = !!this.data.task;
 
   readonly form = this.fb.nonNullable.group({
     projectId: ['', Validators.required],
     title: ['', [Validators.required, Validators.maxLength(120)]],
     description: ['', Validators.maxLength(500)],
+    assigneeId: [''],
     status: ['todo' as TaskStatus, Validators.required],
     priority: ['medium' as TaskPriority, Validators.required],
   });
 
   ngOnInit(): void {
+    this.userStore.loadUsers();
+
     if (this.data.task) {
       this.form.setValue({
         projectId: this.data.task.projectId,
         title: this.data.task.title,
         description: this.data.task.description ?? '',
+        assigneeId: this.data.task.assigneeId ?? '',
         status: this.data.task.status,
         priority: this.data.task.priority,
       });
@@ -89,9 +95,15 @@ export class TaskFormDialogComponent implements OnInit {
     }
 
     const raw = this.form.getRawValue();
+    const assigneeValue = raw.assigneeId || null;
+
     const data = {
-      ...raw,
+      projectId: raw.projectId,
+      title: raw.title,
       description: raw.description.trim() || undefined,
+      status: raw.status,
+      priority: raw.priority,
+      assigneeId: this.isEdit ? assigneeValue : assigneeValue ?? undefined,
     };
 
     this.dialogRef.close({

@@ -67,6 +67,20 @@
         }
       </mat-select>
     </mat-form-field>
+
+    <mat-form-field appearance="outline" class="tasks-page__assignee-filter">
+      <mat-label>Assignee</mat-label>
+      <mat-select
+        [value]="filterAssigneeId() ?? ''"
+        (valueChange)="onAssigneeFilter($event)"
+      >
+        <mat-option value="">All assignees</mat-option>
+        <mat-option value="__unassigned__">Unassigned</mat-option>
+        @for (user of users(); track user.id) {
+          <mat-option [value]="user.id">{{ user.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </div>
 
   @if (viewMode() === 'kanban') {

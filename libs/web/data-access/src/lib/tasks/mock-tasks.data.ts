@@ -8,6 +8,7 @@ export const MOCK_TASKS: Task[] = [
     description: 'Angular + NestJS workspace scaffolding',
     status: 'done',
     priority: 'high',
+    assigneeId: 'user-1',
     dueDate: new Date('2026-02-01'),
   },
   {
@@ -17,6 +18,7 @@ export const MOCK_TASKS: Task[] = [
     description: 'Material sidenav, header, routing',
     status: 'done',
     priority: 'high',
+    assigneeId: 'user-2',
   },
   {
     id: 'task-3',
@@ -25,6 +27,7 @@ export const MOCK_TASKS: Task[] = [
     description: 'Signal store + Material table + CRUD',
     status: 'done',
     priority: 'medium',
+    assigneeId: 'user-1',
   },
   {
     id: 'task-4',
@@ -33,6 +36,7 @@ export const MOCK_TASKS: Task[] = [
     description: 'CDK drag-drop between columns',
     status: 'in_progress',
     priority: 'high',
+    assigneeId: 'user-2',
   },
   {
     id: 'task-5',
@@ -40,6 +44,7 @@ export const MOCK_TASKS: Task[] = [
     title: 'Add dashboard widgets',
     status: 'todo',
     priority: 'medium',
+    assigneeId: 'user-3',
   },
   {
     id: 'task-6',
@@ -47,6 +52,7 @@ export const MOCK_TASKS: Task[] = [
     title: 'Audit current mobile screens',
     status: 'in_progress',
     priority: 'medium',
+    assigneeId: 'user-3',
     dueDate: new Date('2026-03-15'),
   },
   {
@@ -55,6 +61,7 @@ export const MOCK_TASKS: Task[] = [
     title: 'Design new navigation pattern',
     status: 'todo',
     priority: 'high',
+    assigneeId: 'user-4',
   },
   {
     id: 'task-8',
@@ -62,6 +69,7 @@ export const MOCK_TASKS: Task[] = [
     title: 'Map legacy API endpoints',
     status: 'todo',
     priority: 'low',
+    assigneeId: 'user-2',
   },
   {
     id: 'task-9',
@@ -69,6 +77,7 @@ export const MOCK_TASKS: Task[] = [
     title: 'Configure API gateway routes',
     status: 'in_progress',
     priority: 'high',
+    assigneeId: 'user-1',
   },
   {
     id: 'task-10',
@@ -83,6 +92,7 @@ export const MOCK_TASKS: Task[] = [
     title: 'Role-based access UI',
     status: 'todo',
     priority: 'high',
+    assigneeId: 'user-4',
   },
   {
     id: 'task-12',
@@ -90,6 +100,7 @@ export const MOCK_TASKS: Task[] = [
     title: 'Prototype onboarding flow',
     status: 'done',
     priority: 'low',
+    assigneeId: 'user-3',
   },
 ];
 

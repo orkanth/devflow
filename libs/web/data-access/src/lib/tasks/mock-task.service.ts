@@ -29,6 +29,7 @@ export class MockTaskService extends TaskDataService {
       description: data.description?.trim(),
       status: data.status ?? DEFAULT_TASK_STATUS,
       priority: data.priority ?? DEFAULT_TASK_PRIORITY,
+      assigneeId: data.assigneeId,
       dueDate: data.dueDate,
     };
     this.tasks = [task, ...this.tasks];
@@ -47,6 +48,8 @@ export class MockTaskService extends TaskDataService {
       ...data,
       title: data.title?.trim() ?? current.title,
       description: data.description?.trim() ?? current.description,
+      assigneeId:
+        data.assigneeId === null ? undefined : data.assigneeId ?? current.assigneeId,
     };
     this.tasks = [
       ...this.tasks.slice(0, index),

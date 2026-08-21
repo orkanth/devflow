@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { Task } from '@devflow/shared-types';
-import { MOCK_PROJECTS } from '@devflow/web-data-access';
+import { MOCK_PROJECTS, UserStore } from '@devflow/web-data-access';
 import { TaskPriorityChipComponent } from './task-priority-chip.component';
 
 @Component({
@@ -30,6 +30,8 @@ import { TaskPriorityChipComponent } from './task-priority-chip.component';
   styleUrl: './task-card.component.scss',
 })
 export class TaskCardComponent {
+  private readonly userStore = inject(UserStore);
+
   readonly task = input.required<Task>();
 
   readonly edit = output<Task>();
@@ -37,5 +39,9 @@ export class TaskCardComponent {
 
   projectName(task: Task): string {
     return MOCK_PROJECTS.find((p) => p.id === task.projectId)?.name ?? 'Unknown';
+  }
+
+  assigneeName(task: Task): string {
+    return this.userStore.getUserName(task.assigneeId);
   }
 }

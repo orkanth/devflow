@@ -18,6 +18,11 @@ export const shellRoutes: Route[] = [
         loadChildren: () =>
           import('@devflow/web-feature-tasks').then((m) => m.tasksRoutes),
       },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('@devflow/web-feature-users').then((m) => m.usersRoutes),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

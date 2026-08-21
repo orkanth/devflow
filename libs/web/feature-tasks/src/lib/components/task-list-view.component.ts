@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Task, TASK_STATUS_LABELS } from '@devflow/shared-types';
-import { MOCK_PROJECTS, TaskStore } from '@devflow/web-data-access';
+import { MOCK_PROJECTS, UserStore, TaskStore } from '@devflow/web-data-access';
 import { TaskPriorityChipComponent } from './task-priority-chip.component';
 
 @Component({
@@ -29,12 +29,14 @@ import { TaskPriorityChipComponent } from './task-priority-chip.component';
 })
 export class TaskListViewComponent {
   private readonly store = inject(TaskStore);
+  private readonly userStore = inject(UserStore);
 
   readonly tasks = this.store.visibleTasks;
 
   readonly displayedColumns = [
     'title',
     'project',
+    'assignee',
     'status',
     'priority',
     'dueDate',
@@ -50,5 +52,9 @@ export class TaskListViewComponent {
 
   statusLabel(status: Task['status']): string {
     return TASK_STATUS_LABELS[status];
+  }
+
+  assigneeName(task: Task): string {
+    return this.userStore.getUserName(task.assigneeId);
   }
 }

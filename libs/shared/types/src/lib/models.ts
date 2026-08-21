@@ -7,6 +7,26 @@ export interface User {
   role: UserRole;
 }
 
+export interface CreateUserDto {
+  name: string;
+  email: string;
+  role: UserRole;
+}
+
+export interface UpdateUserDto {
+  name?: string;
+  email?: string;
+  role?: UserRole;
+}
+
+export const USER_ROLES: UserRole[] = ['admin', 'member', 'viewer'];
+
+export const USER_ROLE_LABELS: Record<UserRole, string> = {
+  admin: 'Admin',
+  member: 'Member',
+  viewer: 'Viewer',
+};
+
 export type ProjectStatus = 'active' | 'archived';
 
 export interface Project {
@@ -50,6 +70,7 @@ export interface CreateTaskDto {
   description?: string;
   status?: TaskStatus;
   priority?: TaskPriority;
+  assigneeId?: string;
   dueDate?: Date;
 }
 
@@ -59,6 +80,7 @@ export interface UpdateTaskDto {
   description?: string;
   status?: TaskStatus;
   priority?: TaskPriority;
+  assigneeId?: string | null;
   dueDate?: Date;
 }
 
