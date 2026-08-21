@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnInit,
   output,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
@@ -26,7 +27,7 @@ import { AuthStore, RolePermissionsService, UserStore } from '@devflow/web-data-
   templateUrl: './shell-header.component.html',
   styleUrl: './shell-header.component.scss',
 })
-export class ShellHeaderComponent {
+export class ShellHeaderComponent implements OnInit {
   private readonly authStore = inject(AuthStore);
   private readonly userStore = inject(UserStore);
   private readonly permissions = inject(RolePermissionsService);
@@ -37,6 +38,10 @@ export class ShellHeaderComponent {
   readonly currentUser = this.authStore.currentUser;
   readonly users = this.userStore.users;
   readonly canSwitchUser = this.permissions.isAdmin;
+
+  ngOnInit(): void {
+    this.userStore.loadUsers();
+  }
 
   switchUser(userId: string): void {
     const user = this.users().find((u) => u.id === userId);
