@@ -42,7 +42,9 @@ export interface ProjectFormDialogResult {
 })
 export class ProjectFormDialogComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<ProjectFormDialogComponent>);
-  private readonly data = inject<ProjectFormDialogData>(MAT_DIALOG_DATA);
+  private readonly data = inject<ProjectFormDialogData>(MAT_DIALOG_DATA, {
+    optional: true,
+  }) ?? {};
   private readonly fb = inject(FormBuilder);
 
   readonly isEdit = !!this.data.project;

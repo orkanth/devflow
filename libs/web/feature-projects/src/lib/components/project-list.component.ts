@@ -73,6 +73,7 @@ export class ProjectListComponent implements OnInit {
     const ref = this.dialog.open(ProjectFormDialogComponent, {
       width: '480px',
       maxWidth: '95vw',
+      data: {},
     });
 
     ref.afterClosed().subscribe((result?: ProjectFormDialogResult) => {

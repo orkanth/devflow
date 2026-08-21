@@ -48,7 +48,9 @@ export interface TaskFormDialogResult {
 })
 export class TaskFormDialogComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<TaskFormDialogComponent>);
-  private readonly data = inject<TaskFormDialogData>(MAT_DIALOG_DATA);
+  private readonly data = inject<TaskFormDialogData>(MAT_DIALOG_DATA, {
+    optional: true,
+  }) ?? {};
   private readonly fb = inject(FormBuilder);
 
   readonly projects = MOCK_PROJECTS;
