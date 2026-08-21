@@ -1,0 +1,17 @@
+.project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 360px;
+  padding-top: 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .project-form {
+    min-width: 0;
+  }
+}

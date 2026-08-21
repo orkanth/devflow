@@ -1,0 +1,43 @@
+<div class="sidebar" [class.sidebar--collapsed]="collapsed()">
+  <div class="sidebar__brand">
+    <mat-icon>hub</mat-icon>
+    @if (!collapsed()) {
+      <span>DevFlow</span>
+    }
+  </div>
+
+  <mat-nav-list class="sidebar__nav">
+    @for (item of navItems; track item.route) {
+      <a
+        mat-list-item
+        [routerLink]="item.route"
+        routerLinkActive="sidebar__link--active"
+        [matTooltip]="item.label"
+        matTooltipPosition="right"
+        [matTooltipDisabled]="!collapsed()"
+      >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        @if (!collapsed()) {
+          <span matListItemTitle>{{ item.label }}</span>
+        }
+      </a>
+    }
+  </mat-nav-list>
+
+  <div class="sidebar__footer">
+    <button
+      mat-button
+      type="button"
+      class="sidebar__logout"
+      (click)="signOut()"
+      matTooltip="Sign out"
+      matTooltipPosition="right"
+      [matTooltipDisabled]="!collapsed()"
+    >
+      <mat-icon>logout</mat-icon>
+      @if (!collapsed()) {
+        <span>Sign out</span>
+      }
+    </button>
+  </div>
+</div>

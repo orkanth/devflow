@@ -1,0 +1,12 @@
+<div class="kanban-board" cdkDropListGroup>
+  @for (status of columns; track status) {
+    <df-task-kanban-column
+      [status]="status"
+      [tasks]="tasksFor(status)"
+      [count]="countFor(status)"
+      (taskDrop)="onDrop($event)"
+      (taskEdit)="onEdit($event)"
+      (taskDelete)="onDelete($event)"
+    />
+  }
+</div>

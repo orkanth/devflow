@@ -1,0 +1,103 @@
+<div class="tasks-page">
+  <header class="tasks-page__header">
+    <div>
+      <h1 class="page-title">Tasks</h1>
+      <p class="page-subtitle">
+        {{ statusCounts().total }} tasks · {{ statusCounts().todo }} to do ·
+        {{ statusCounts().in_progress }} in progress · {{ statusCounts().done }} done
+      </p>
+    </div>
+
+    <div class="tasks-page__actions">
+      <mat-button-toggle-group
+        [value]="viewMode()"
+        (change)="setViewMode($event.value)"
+        aria-label="Task view mode"
+      >
+        <mat-button-toggle value="kanban">
+          <mat-icon>view_kanban</mat-icon>
+          Kanban
+        </mat-button-toggle>
+        <mat-button-toggle value="list">
+          <mat-icon>view_list</mat-icon>
+          List
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        (click)="openCreateDialog()"
+        [disabled]="!canCreateTasks()"
+      >
+        <mat-icon>add</mat-icon>
+        New task
+      </button>
+    </div>
+  </header>
+
+  @if (loading() && statusCounts().total === 0) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  @if (error()) {
+    <div class="tasks-page__error" role="alert">
+      <span>{{ error() }}</span>
+      <button mat-button type="button" (click)="dismissError()">Dismiss</button>
+    </div>
+  }
+
+  <div class="tasks-page__filters">
+    <mat-form-field appearance="outline" class="tasks-page__search">
+      <mat-label>Search tasks</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        type="search"
+        [value]="searchInput()"
+        (input)="onSearch($any($event.target).value)"
+        placeholder="Title or description"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="tasks-page__project-filter">
+      <mat-label>Project</mat-label>
+      <mat-select
+        [value]="filterProjectId() ?? ''"
+        (valueChange)="onProjectFilter($event)"
+      >
+        <mat-option value="">All projects</mat-option>
+        @for (project of projects; track project.id) {
+          <mat-option [value]="project.id">{{ project.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="tasks-page__assignee-filter">
+      <mat-label>Assignee</mat-label>
+      <mat-select
+        [value]="filterAssigneeId() ?? ''"
+        (valueChange)="onAssigneeFilter($event)"
+      >
+        <mat-option value="">All assignees</mat-option>
+        <mat-option value="__unassigned__">Unassigned</mat-option>
+        @for (user of users(); track user.id) {
+          <mat-option [value]="user.id">{{ user.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  @if (viewMode() === 'kanban') {
+    <df-task-kanban-board
+      (editTask)="openEditDialog($event)"
+      (deleteTask)="deleteTask($event)"
+    />
+  } @else {
+    <df-task-list-view
+      (editTask)="openEditDialog($event)"
+      (deleteTask)="deleteTask($event)"
+    />
+  }
+</div>

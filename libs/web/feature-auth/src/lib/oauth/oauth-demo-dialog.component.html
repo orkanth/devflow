@@ -1,0 +1,49 @@
+<div
+  class="oauth-demo-dialog"
+  [class.oauth-demo-dialog--google]="info.provider === 'google'"
+  [class.oauth-demo-dialog--microsoft]="info.provider === 'microsoft'"
+>
+  <div class="oauth-demo-dialog__header">
+    @if (info.provider === 'google') {
+      <span class="oauth-demo-dialog__logo oauth-demo-dialog__logo--google" aria-hidden="true"></span>
+    } @else {
+      <span class="oauth-demo-dialog__logo oauth-demo-dialog__logo--microsoft" aria-hidden="true"></span>
+    }
+    <div>
+      <h2>{{ info.headline }}</h2>
+      <p>Choose an account to continue</p>
+    </div>
+  </div>
+
+  <div class="oauth-demo-dialog__body">
+    <p class="oauth-demo-dialog__app">
+      <strong>DevFlow</strong> wants to access your {{ info.brandLabel }} account
+    </p>
+
+    <div class="oauth-demo-dialog__account">
+      <div class="oauth-demo-dialog__avatar">{{ info.demoUserName.charAt(0) }}</div>
+      <div>
+        <strong>{{ info.demoUserName }}</strong>
+        <span>{{ info.demoUserEmail }}</span>
+        <span class="oauth-demo-dialog__role">{{ info.demoUserRole }}</span>
+      </div>
+    </div>
+
+    <ul class="oauth-demo-dialog__permissions">
+      <li>View your profile (name, email)</li>
+      <li>Sign you into DevFlow</li>
+    </ul>
+  </div>
+
+  <div class="oauth-demo-dialog__actions">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button
+      mat-flat-button
+      type="button"
+      class="oauth-demo-dialog__continue"
+      (click)="continue()"
+    >
+      Continue
+    </button>
+  </div>
+</div>
