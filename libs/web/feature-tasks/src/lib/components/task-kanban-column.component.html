@@ -8,6 +8,7 @@
     class="kanban-column__list"
     cdkDropList
     [cdkDropListData]="status()"
+    [cdkDropListDisabled]="!canEditTasks()"
     (cdkDropListDropped)="taskDrop.emit($event)"
   >
     @for (task of tasks(); track task.id) {

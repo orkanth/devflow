@@ -27,9 +27,16 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Assignee</mat-label>
       <mat-select formControlName="assigneeId">
-        <mat-option value="">Unassigned</mat-option>
-        @for (user of users(); track user.id) {
-          <mat-option [value]="user.id">{{ user.name }}</mat-option>
+        @if (canAssignAnyone()) {
+          <mat-option value="">Unassigned</mat-option>
+          @for (user of users(); track user.id) {
+            <mat-option [value]="user.id">{{ user.name }}</mat-option>
+          }
+        } @else {
+          <mat-option value="">Unassigned</mat-option>
+          @for (user of assignableUsers(); track user.id) {
+            <mat-option [value]="user.id">{{ user.name }}</mat-option>
+          }
         }
       </mat-select>
     </mat-form-field>

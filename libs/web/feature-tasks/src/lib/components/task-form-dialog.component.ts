@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   OnInit,
 } from '@angular/core';
@@ -21,7 +22,7 @@ import {
   TaskStatus,
   UpdateTaskDto,
 } from '@devflow/shared-types';
-import { MOCK_PROJECTS, UserStore } from '@devflow/web-data-access';
+import { MOCK_PROJECTS, RolePermissionsService, UserStore } from '@devflow/web-data-access';
 
 export interface TaskFormDialogData {
   task?: Task;
@@ -53,10 +54,16 @@ export class TaskFormDialogComponent implements OnInit {
   }) ?? {};
   private readonly fb = inject(FormBuilder);
   private readonly userStore = inject(UserStore);
+  private readonly permissions = inject(RolePermissionsService);
 
   readonly projects = MOCK_PROJECTS;
   readonly users = this.userStore.users;
   readonly isEdit = !!this.data.task;
+  readonly canAssignAnyone = this.permissions.canAssignTasksToAnyone;
+
+  readonly assignableUsers = computed(() =>
+    this.permissions.assignableUsers(this.users()),
+  );
 
   readonly form = this.fb.nonNullable.group({
     projectId: ['', Validators.required],
@@ -81,6 +88,10 @@ export class TaskFormDialogComponent implements OnInit {
       });
     } else if (this.projects.length > 0) {
       this.form.patchValue({ projectId: this.projects[0].id });
+      const selfId = this.permissions.currentUserId();
+      if (!this.canAssignAnyone() && selfId) {
+        this.form.patchValue({ assigneeId: selfId });
+      }
     }
   }
 

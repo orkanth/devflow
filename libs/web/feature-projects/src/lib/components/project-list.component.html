@@ -6,7 +6,13 @@
         {{ activeCount() }} active · {{ archivedCount() }} archived
       </p>
     </div>
-    <button mat-flat-button color="primary" type="button" (click)="openCreateDialog()">
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      (click)="openCreateDialog()"
+      [disabled]="!canManageProjects()"
+    >
       <mat-icon>add</mat-icon>
       New project
     </button>
@@ -89,11 +95,11 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
 
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell empty-row" [attr.colspan]="displayedColumns.length">
+        <td class="mat-cell empty-row" [attr.colspan]="displayedColumns().length">
           @if (loading()) {
             Loading projects…
           } @else if (searchInput()) {

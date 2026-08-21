@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   input,
   OnInit,
@@ -13,7 +14,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { Task } from '@devflow/shared-types';
-import { MOCK_PROJECTS, TaskStore, UserStore } from '@devflow/web-data-access';
+import {
+  MOCK_PROJECTS,
+  RolePermissionsService,
+  TaskStore,
+  UserStore,
+} from '@devflow/web-data-access';
 import { TaskPriorityChipComponent } from './task-priority-chip.component';
 
 @Component({
@@ -35,6 +41,7 @@ import { TaskPriorityChipComponent } from './task-priority-chip.component';
 export class TaskCardComponent implements OnInit {
   private readonly userStore = inject(UserStore);
   private readonly taskStore = inject(TaskStore);
+  private readonly permissions = inject(RolePermissionsService);
 
   readonly task = input.required<Task>();
 
@@ -42,6 +49,13 @@ export class TaskCardComponent implements OnInit {
   readonly delete = output<Task>();
 
   readonly users = this.userStore.users;
+  readonly canEditTasks = this.permissions.canEditTasks;
+  readonly canDeleteTasks = this.permissions.canDeleteTasks;
+  readonly canAssignAnyone = this.permissions.canAssignTasksToAnyone;
+
+  readonly assignableUsers = computed(() =>
+    this.permissions.assignableUsers(this.users()),
+  );
 
   ngOnInit(): void {
     this.userStore.loadUsers();
@@ -59,7 +73,14 @@ export class TaskCardComponent implements OnInit {
     return task.assigneeId === userId;
   }
 
+  canShowAssignOption(userId: string | null): boolean {
+    return this.permissions.canAssignTaskTo(userId);
+  }
+
   async assignTo(task: Task, assigneeId: string | null): Promise<void> {
+    if (!this.canShowAssignOption(assigneeId)) {
+      return;
+    }
     if (task.assigneeId === assigneeId || (!task.assigneeId && !assigneeId)) {
       return;
     }

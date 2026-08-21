@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   OnInit,
   signal,
@@ -16,7 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UiModalService } from '@devflow/shared-ui';
 import { Project, CreateProjectDto } from '@devflow/shared-types';
-import { ProjectStore } from '@devflow/web-data-access';
+import { ProjectStore, RolePermissionsService } from '@devflow/web-data-access';
 import {
   ProjectFormDialogComponent,
   ProjectFormDialogResult,
@@ -45,22 +46,24 @@ export class ProjectListComponent implements OnInit {
   private readonly store = inject(ProjectStore);
   private readonly dialog = inject(MatDialog);
   private readonly modal = inject(UiModalService);
+  private readonly permissions = inject(RolePermissionsService);
 
   readonly projects = this.store.filteredProjects;
   readonly loading = this.store.loading;
   readonly error = this.store.error;
   readonly activeCount = this.store.activeCount;
   readonly archivedCount = this.store.archivedCount;
+  readonly canManageProjects = this.permissions.canManageProjects;
 
   readonly searchInput = signal('');
 
-  readonly displayedColumns = [
-    'name',
-    'description',
-    'status',
-    'createdAt',
-    'actions',
-  ];
+  readonly displayedColumns = computed(() => {
+    const columns = ['name', 'description', 'status', 'createdAt'];
+    if (this.canManageProjects()) {
+      columns.push('actions');
+    }
+    return columns;
+  });
 
   ngOnInit(): void {
     this.store.loadProjects();

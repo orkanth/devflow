@@ -8,6 +8,7 @@ import {
 } from '@devflow/shared-types';
 import { firstValueFrom } from 'rxjs';
 import { TaskDataService } from './task-data.service';
+import { RolePermissionsService } from '../auth/role-permissions.service';
 
 interface TaskState {
   tasks: Task[];
@@ -30,6 +31,7 @@ const initialState: TaskState = {
 @Injectable({ providedIn: 'root' })
 export class TaskStore {
   private readonly taskService = inject(TaskDataService);
+  private readonly permissions = inject(RolePermissionsService);
   private readonly state = signal<TaskState>(initialState);
 
   readonly tasks = computed(() => this.state().tasks);
@@ -122,6 +124,15 @@ export class TaskStore {
   }
 
   async createTask(data: CreateTaskDto): Promise<boolean> {
+    if (!this.permissions.canCreateTasks()) {
+      this.patch({ error: 'You do not have permission to create tasks.' });
+      return false;
+    }
+    if (data.assigneeId && !this.permissions.canAssignTaskTo(data.assigneeId)) {
+      this.patch({ error: 'You can only assign tasks to yourself.' });
+      return false;
+    }
+
     this.patch({ loading: true, error: null });
     try {
       const task = await firstValueFrom(this.taskService.create(data));
@@ -137,6 +148,18 @@ export class TaskStore {
   }
 
   async updateTask(id: string, data: UpdateTaskDto): Promise<boolean> {
+    if (!this.permissions.canEditTasks()) {
+      this.patch({ error: 'You do not have permission to edit tasks.' });
+      return false;
+    }
+    if (
+      data.assigneeId !== undefined &&
+      !this.permissions.canAssignTaskTo(data.assigneeId)
+    ) {
+      this.patch({ error: 'You can only assign tasks to yourself.' });
+      return false;
+    }
+
     const previous = this.tasks();
     const optimistic = previous.map((t) => {
       if (t.id !== id) {
@@ -167,6 +190,10 @@ export class TaskStore {
     newStatus: TaskStatus,
     columnIndex?: number,
   ): Promise<boolean> {
+    if (!this.permissions.canEditTasks()) {
+      return false;
+    }
+
     const previous = this.tasks();
     const task = previous.find((t) => t.id === taskId);
     if (!task || task.status === newStatus) {
@@ -177,6 +204,11 @@ export class TaskStore {
   }
 
   async deleteTask(id: string): Promise<boolean> {
+    if (!this.permissions.canDeleteTasks()) {
+      this.patch({ error: 'You do not have permission to delete tasks.' });
+      return false;
+    }
+
     this.patch({ loading: true, error: null });
     try {
       await firstValueFrom(this.taskService.delete(id));

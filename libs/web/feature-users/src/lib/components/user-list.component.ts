@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   OnInit,
   signal,
@@ -15,7 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UiModalService } from '@devflow/shared-ui';
 import { CreateUserDto, User } from '@devflow/shared-types';
-import { UserStore } from '@devflow/web-data-access';
+import { RolePermissionsService, UserStore } from '@devflow/web-data-access';
 import {
   UserFormDialogComponent,
   UserFormDialogResult,
@@ -43,14 +44,22 @@ export class UserListComponent implements OnInit {
   private readonly store = inject(UserStore);
   private readonly dialog = inject(MatDialog);
   private readonly modal = inject(UiModalService);
+  private readonly permissions = inject(RolePermissionsService);
 
   readonly users = this.store.filteredUsers;
   readonly loading = this.store.loading;
   readonly error = this.store.error;
+  readonly canManageUsers = this.permissions.canManageUsers;
 
   readonly searchInput = signal('');
 
-  readonly displayedColumns = ['name', 'email', 'role', 'actions'];
+  readonly displayedColumns = computed(() => {
+    const columns = ['name', 'email', 'role'];
+    if (this.canManageUsers()) {
+      columns.push('actions');
+    }
+    return columns;
+  });
 
   ngOnInit(): void {
     this.store.reloadUsers();

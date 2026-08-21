@@ -7,7 +7,7 @@ import {
 import { CdkDropListGroup, DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Task, TaskStatus, TASK_STATUSES } from '@devflow/shared-types';
-import { TaskStore } from '@devflow/web-data-access';
+import { RolePermissionsService, TaskStore } from '@devflow/web-data-access';
 import { TaskKanbanColumnComponent } from './task-kanban-column.component';
 
 @Component({
@@ -19,9 +19,11 @@ import { TaskKanbanColumnComponent } from './task-kanban-column.component';
 })
 export class TaskKanbanBoardComponent {
   private readonly store = inject(TaskStore);
+  private readonly permissions = inject(RolePermissionsService);
 
   readonly columns = TASK_STATUSES;
   readonly statusCounts = this.store.statusCounts;
+  readonly canEditTasks = this.permissions.canEditTasks;
 
   readonly editTask = output<Task>();
   readonly deleteTask = output<Task>();
@@ -35,6 +37,10 @@ export class TaskKanbanBoardComponent {
   }
 
   onDrop(event: CdkDragDrop<TaskStatus>): void {
+    if (!this.canEditTasks()) {
+      return;
+    }
+
     const task = event.item.data as Task;
     const targetStatus = event.container.data;
 

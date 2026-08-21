@@ -15,10 +15,6 @@
 
   <span class="shell-header__spacer"></span>
 
-  <button mat-icon-button type="button" aria-label="Notifications">
-    <mat-icon>notifications</mat-icon>
-  </button>
-
   <button
     mat-button
     type="button"
@@ -46,20 +42,21 @@
     </a>
 
     <mat-divider />
-    <div class="shell-header__menu-label">Switch user (demo)</div>
-    @for (user of users(); track user.id) {
-      <button
-        mat-menu-item
-        type="button"
-        (click)="switchUser(user.id)"
-        [disabled]="currentUser()?.id === user.id"
-      >
-        <mat-icon>swap_horiz</mat-icon>
-        <span>{{ user.name }}</span>
-      </button>
+    @if (canSwitchUser()) {
+      <div class="shell-header__menu-label">Switch user (demo)</div>
+      @for (user of users(); track user.id) {
+        <button
+          mat-menu-item
+          type="button"
+          (click)="switchUser(user.id)"
+          [disabled]="currentUser()?.id === user.id"
+        >
+          <mat-icon>swap_horiz</mat-icon>
+          <span>{{ user.name }}</span>
+        </button>
+      }
+      <mat-divider />
     }
-
-    <mat-divider />
     <button mat-menu-item type="button" (click)="signOut()">
       <mat-icon>logout</mat-icon>
       <span>Sign out</span>

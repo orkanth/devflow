@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   input,
   output,
 } from '@angular/core';
@@ -13,6 +14,7 @@ import {
   TaskStatus,
   TASK_STATUS_LABELS,
 } from '@devflow/shared-types';
+import { RolePermissionsService } from '@devflow/web-data-access';
 import { TaskCardComponent } from './task-card.component';
 
 @Component({
@@ -23,6 +25,8 @@ import { TaskCardComponent } from './task-card.component';
   styleUrl: './task-kanban-column.component.scss',
 })
 export class TaskKanbanColumnComponent {
+  private readonly permissions = inject(RolePermissionsService);
+
   readonly status = input.required<TaskStatus>();
   readonly tasks = input.required<Task[]>();
   readonly count = input.required<number>();
@@ -30,6 +34,8 @@ export class TaskKanbanColumnComponent {
   readonly taskDrop = output<CdkDragDrop<TaskStatus>>();
   readonly taskEdit = output<Task>();
   readonly taskDelete = output<Task>();
+
+  readonly canEditTasks = this.permissions.canEditTasks;
 
   label(): string {
     return TASK_STATUS_LABELS[this.status()];

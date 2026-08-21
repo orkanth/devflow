@@ -24,7 +24,13 @@
         </mat-button-toggle>
       </mat-button-toggle-group>
 
-      <button mat-flat-button color="primary" type="button" (click)="openCreateDialog()">
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        (click)="openCreateDialog()"
+        [disabled]="!canCreateTasks()"
+      >
         <mat-icon>add</mat-icon>
         New task
       </button>

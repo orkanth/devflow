@@ -6,6 +6,7 @@ import {
 } from '@devflow/shared-types';
 import { firstValueFrom } from 'rxjs';
 import { ProjectDataService } from './project-data.service';
+import { RolePermissionsService } from '../auth/role-permissions.service';
 
 interface ProjectState {
   projects: Project[];
@@ -24,6 +25,7 @@ const initialState: ProjectState = {
 @Injectable({ providedIn: 'root' })
 export class ProjectStore {
   private readonly projectService = inject(ProjectDataService);
+  private readonly permissions = inject(RolePermissionsService);
   private readonly state = signal<ProjectState>(initialState);
 
   readonly projects = computed(() => this.state().projects);
@@ -70,6 +72,11 @@ export class ProjectStore {
   }
 
   async createProject(data: CreateProjectDto): Promise<boolean> {
+    if (!this.permissions.canManageProjects()) {
+      this.patch({ error: 'Only admins can create projects.' });
+      return false;
+    }
+
     this.patch({ loading: true, error: null });
     try {
       const project = await firstValueFrom(this.projectService.create(data));
@@ -88,6 +95,11 @@ export class ProjectStore {
   }
 
   async updateProject(id: string, data: UpdateProjectDto): Promise<boolean> {
+    if (!this.permissions.canManageProjects()) {
+      this.patch({ error: 'Only admins can edit projects.' });
+      return false;
+    }
+
     this.patch({ loading: true, error: null });
     try {
       const updated = await firstValueFrom(
@@ -108,6 +120,11 @@ export class ProjectStore {
   }
 
   async deleteProject(id: string): Promise<boolean> {
+    if (!this.permissions.canManageProjects()) {
+      this.patch({ error: 'Only admins can delete projects.' });
+      return false;
+    }
+
     this.patch({ loading: true, error: null });
     try {
       await firstValueFrom(this.projectService.delete(id));

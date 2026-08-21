@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   output,
 } from '@angular/core';
@@ -10,7 +11,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Task, TASK_STATUS_LABELS } from '@devflow/shared-types';
-import { MOCK_PROJECTS, UserStore, TaskStore } from '@devflow/web-data-access';
+import {
+  MOCK_PROJECTS,
+  RolePermissionsService,
+  TaskStore,
+  UserStore,
+} from '@devflow/web-data-access';
 import { TaskPriorityChipComponent } from './task-priority-chip.component';
 
 @Component({
@@ -30,18 +36,26 @@ import { TaskPriorityChipComponent } from './task-priority-chip.component';
 export class TaskListViewComponent {
   private readonly store = inject(TaskStore);
   private readonly userStore = inject(UserStore);
+  private readonly permissions = inject(RolePermissionsService);
 
   readonly tasks = this.store.visibleTasks;
+  readonly canEditTasks = this.permissions.canEditTasks;
+  readonly canDeleteTasks = this.permissions.canDeleteTasks;
 
-  readonly displayedColumns = [
-    'title',
-    'project',
-    'assignee',
-    'status',
-    'priority',
-    'dueDate',
-    'actions',
-  ];
+  readonly displayedColumns = computed(() => {
+    const columns = [
+      'title',
+      'project',
+      'assignee',
+      'status',
+      'priority',
+      'dueDate',
+    ];
+    if (this.canEditTasks() || this.canDeleteTasks()) {
+      columns.push('actions');
+    }
+    return columns;
+  });
 
   readonly editTask = output<Task>();
   readonly deleteTask = output<Task>();

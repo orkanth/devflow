@@ -10,7 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AuthStore, UserStore } from '@devflow/web-data-access';
+import { AuthStore, RolePermissionsService, UserStore } from '@devflow/web-data-access';
 
 @Component({
   selector: 'df-shell-header',
@@ -29,12 +29,14 @@ import { AuthStore, UserStore } from '@devflow/web-data-access';
 export class ShellHeaderComponent {
   private readonly authStore = inject(AuthStore);
   private readonly userStore = inject(UserStore);
+  private readonly permissions = inject(RolePermissionsService);
   private readonly router = inject(Router);
 
   readonly menuToggle = output<void>();
 
   readonly currentUser = this.authStore.currentUser;
   readonly users = this.userStore.users;
+  readonly canSwitchUser = this.permissions.isAdmin;
 
   switchUser(userId: string): void {
     const user = this.users().find((u) => u.id === userId);

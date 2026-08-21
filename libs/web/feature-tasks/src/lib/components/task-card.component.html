@@ -1,67 +1,95 @@
-<div class="task-card" cdkDrag [cdkDragData]="task()">
+<div
+  class="task-card"
+  cdkDrag
+  [cdkDragData]="task()"
+  [cdkDragDisabled]="!canEditTasks()"
+>
   <mat-card>
-    <div class="task-card__drag" cdkDragHandle aria-label="Drag task">
-      <mat-icon>drag_indicator</mat-icon>
-    </div>
+    @if (canEditTasks()) {
+      <div class="task-card__drag" cdkDragHandle aria-label="Drag task">
+        <mat-icon>drag_indicator</mat-icon>
+      </div>
+    }
 
     <div class="task-card__body">
       <div class="task-card__header">
         <span class="task-card__title">{{ task().title }}</span>
-        <button
-          mat-icon-button
-          type="button"
-          aria-label="Task actions"
-          [matMenuTriggerFor]="menu"
-          (click)="$event.stopPropagation()"
-        >
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
+        @if (canEditTasks() || canDeleteTasks()) {
           <button
-            mat-menu-item
+            mat-icon-button
             type="button"
-            [matMenuTriggerFor]="assignMenu"
-            aria-label="Assign task"
+            aria-label="Task actions"
+            [matMenuTriggerFor]="menu"
+            (click)="$event.stopPropagation()"
           >
-            <mat-icon>person_add</mat-icon>
-            <span>Assign to</span>
+            <mat-icon>more_vert</mat-icon>
           </button>
-          <mat-menu #assignMenu="matMenu">
-            <button
-              mat-menu-item
-              type="button"
-              (click)="assignTo(task(), null)"
-              [disabled]="!task().assigneeId"
-            >
-              @if (!task().assigneeId) {
-                <mat-icon>check</mat-icon>
+          <mat-menu #menu="matMenu">
+            @if (canEditTasks()) {
+              @if (canAssignAnyone()) {
+                <button
+                  mat-menu-item
+                  type="button"
+                  [matMenuTriggerFor]="assignMenu"
+                  aria-label="Assign task"
+                >
+                  <mat-icon>person_add</mat-icon>
+                  <span>Assign to</span>
+                </button>
+                <mat-menu #assignMenu="matMenu">
+                  @if (canShowAssignOption(null)) {
+                    <button
+                      mat-menu-item
+                      type="button"
+                      (click)="assignTo(task(), null)"
+                      [disabled]="!task().assigneeId"
+                    >
+                      @if (!task().assigneeId) {
+                        <mat-icon>check</mat-icon>
+                      }
+                      <span>Unassigned</span>
+                    </button>
+                    <mat-divider />
+                  }
+                  @for (user of users(); track user.id) {
+                    @if (canShowAssignOption(user.id)) {
+                      <button
+                        mat-menu-item
+                        type="button"
+                        (click)="assignTo(task(), user.id)"
+                      >
+                        @if (isAssignedTo(task(), user.id)) {
+                          <mat-icon>check</mat-icon>
+                        }
+                        <span>{{ user.name }}</span>
+                      </button>
+                    }
+                  }
+                </mat-menu>
+              } @else {
+                <button
+                  mat-menu-item
+                  type="button"
+                  (click)="assignTo(task(), assignableUsers()[0]?.id ?? null)"
+                >
+                  <mat-icon>person_add</mat-icon>
+                  <span>Assign to me</span>
+                </button>
               }
-              <span>Unassigned</span>
-            </button>
-            <mat-divider />
-            @for (user of users(); track user.id) {
-              <button
-                mat-menu-item
-                type="button"
-                (click)="assignTo(task(), user.id)"
-              >
-                @if (isAssignedTo(task(), user.id)) {
-                  <mat-icon>check</mat-icon>
-                }
-                <span>{{ user.name }}</span>
+
+              <button mat-menu-item type="button" (click)="edit.emit(task())">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+            }
+            @if (canDeleteTasks()) {
+              <button mat-menu-item type="button" (click)="delete.emit(task())">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
               </button>
             }
           </mat-menu>
-
-          <button mat-menu-item type="button" (click)="edit.emit(task())">
-            <mat-icon>edit</mat-icon>
-            <span>Edit</span>
-          </button>
-          <button mat-menu-item type="button" (click)="delete.emit(task())">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </button>
-        </mat-menu>
+        }
       </div>
 
       @if (task().description) {
