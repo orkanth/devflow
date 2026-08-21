@@ -28,6 +28,11 @@ export const shellRoutes: Route[] = [
         loadChildren: () =>
           import('@devflow/web-feature-users').then((m) => m.usersRoutes),
       },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('@devflow/web-feature-auth').then((m) => m.profileRoutes),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

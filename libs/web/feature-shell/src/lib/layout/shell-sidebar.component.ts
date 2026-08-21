@@ -34,6 +34,7 @@ export class ShellSidebarComponent {
     { label: 'Projects', route: '/projects', icon: 'folder' },
     { label: 'Tasks', route: '/tasks', icon: 'assignment' },
     { label: 'Users', route: '/users', icon: 'group' },
+    { label: 'Profile', route: '/profile', icon: 'person' },
   ];
 
   signOut(): void {

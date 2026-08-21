@@ -1,0 +1,95 @@
+<div class="profile-page">
+  <header class="profile-page__header">
+    <h1 class="page-title">Profile</h1>
+    <p class="page-subtitle">Your account details and workspace activity</p>
+  </header>
+
+  @if (user(); as profile) {
+    <div class="profile-page__grid">
+      <mat-card class="profile-card profile-card--hero">
+        <div class="profile-hero">
+          <div class="profile-hero__avatar">{{ userInitial() }}</div>
+          <div class="profile-hero__info">
+            <h2>{{ profile.name }}</h2>
+            <p>{{ profile.email }}</p>
+            <mat-chip-set>
+              <mat-chip class="role-chip role-chip--{{ profile.role }}">
+                {{ roleLabel(profile.role) }}
+              </mat-chip>
+              <mat-chip class="provider-chip">
+                <mat-icon>{{ signInIcon(authProvider()) }}</mat-icon>
+                Signed in with {{ signInLabel(authProvider()) }}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="profile-card">
+        <mat-card-header>
+          <mat-card-title>Account details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list class="profile-details">
+            <mat-list-item>
+              <mat-icon matListItemIcon>badge</mat-icon>
+              <span matListItemTitle>Full name</span>
+              <span matListItemLine>{{ profile.name }}</span>
+            </mat-list-item>
+            <mat-divider />
+            <mat-list-item>
+              <mat-icon matListItemIcon>mail</mat-icon>
+              <span matListItemTitle>Email</span>
+              <span matListItemLine>{{ profile.email }}</span>
+            </mat-list-item>
+            <mat-divider />
+            <mat-list-item>
+              <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
+              <span matListItemTitle>Role</span>
+              <span matListItemLine>{{ roleLabel(profile.role) }}</span>
+            </mat-list-item>
+            <mat-divider />
+            <mat-list-item>
+              <mat-icon matListItemIcon>fingerprint</mat-icon>
+              <span matListItemTitle>User ID</span>
+              <span matListItemLine class="profile-details__mono">{{ profile.id }}</span>
+            </mat-list-item>
+            <mat-divider />
+            <mat-list-item>
+              <mat-icon matListItemIcon>login</mat-icon>
+              <span matListItemTitle>Sign-in method</span>
+              <span matListItemLine>{{ signInLabel(authProvider()) }}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="profile-card">
+        <mat-card-header>
+          <mat-card-title>My task summary</mat-card-title>
+          <mat-card-subtitle>Tasks assigned to you</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="profile-stats">
+            <div class="profile-stat profile-stat--total">
+              <span class="profile-stat__value">{{ taskStats().total }}</span>
+              <span class="profile-stat__label">Total</span>
+            </div>
+            <div class="profile-stat profile-stat--todo">
+              <span class="profile-stat__value">{{ taskStats().todo }}</span>
+              <span class="profile-stat__label">{{ statusLabel('todo') }}</span>
+            </div>
+            <div class="profile-stat profile-stat--progress">
+              <span class="profile-stat__value">{{ taskStats().in_progress }}</span>
+              <span class="profile-stat__label">{{ statusLabel('in_progress') }}</span>
+            </div>
+            <div class="profile-stat profile-stat--done">
+              <span class="profile-stat__value">{{ taskStats().done }}</span>
+              <span class="profile-stat__label">{{ statusLabel('done') }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+</div>

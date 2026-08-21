@@ -15,8 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { OAuthProvider } from '@devflow/shared-types';
 import { firstValueFrom } from 'rxjs';
+import { OAuthButtonComponent } from '../components/oauth-button.component';
 import { OAuthDemoDialogComponent } from '../oauth/oauth-demo-dialog.component';
-import { OAUTH_DEMO_PROVIDERS } from '../oauth/oauth-demo.constants';
 import { AuthStore } from '@devflow/web-data-access';
 import { ForgotPasswordDialogComponent } from './forgot-password-dialog.component';
 
@@ -31,6 +31,7 @@ import { ForgotPasswordDialogComponent } from './forgot-password-dialog.componen
     MatInputModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    OAuthButtonComponent,
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
@@ -45,8 +46,6 @@ export class LoginPageComponent {
   readonly error = this.authStore.error;
   readonly hidePassword = signal(true);
   readonly activeProvider = signal<OAuthProvider | null>(null);
-
-  readonly oauthProviders = Object.values(OAUTH_DEMO_PROVIDERS);
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],

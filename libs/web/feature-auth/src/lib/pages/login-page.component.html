@@ -23,29 +23,18 @@
       }
 
       <div class="login-oauth">
-        @for (provider of oauthProviders; track provider.provider) {
-          <button
-            mat-stroked-button
-            type="button"
-            class="login-oauth__btn"
-            [class.login-oauth__btn--google]="provider.provider === 'google'"
-            [class.login-oauth__btn--microsoft]="provider.provider === 'microsoft'"
-            [disabled]="loading()"
-            (click)="startOAuthDemo(provider.provider)"
-          >
-            @if (isProviderLoading(provider.provider)) {
-              <mat-spinner diameter="20" />
-            } @else {
-              <span
-                class="login-oauth__icon"
-                [class.login-oauth__icon--google]="provider.provider === 'google'"
-                [class.login-oauth__icon--microsoft]="provider.provider === 'microsoft'"
-                aria-hidden="true"
-              ></span>
-            }
-            <span>Continue with {{ provider.brandLabel }}</span>
-          </button>
-        }
+        <df-oauth-button
+          provider="google"
+          [loading]="isProviderLoading('google')"
+          [disabled]="loading()"
+          (pressed)="startOAuthDemo('google')"
+        />
+        <df-oauth-button
+          provider="microsoft"
+          [loading]="isProviderLoading('microsoft')"
+          [disabled]="loading()"
+          (pressed)="startOAuthDemo('microsoft')"
+        />
       </div>
 
       <div class="login-divider">

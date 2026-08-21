@@ -45,6 +45,7 @@ export class MockAuthService extends AuthDataService {
       user,
       token: createMockJwt(user, provider),
       expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      provider: provider ?? 'email',
     };
   }
 }

@@ -27,18 +27,21 @@ export const USER_ROLE_LABELS: Record<UserRole, string> = {
   viewer: 'Viewer',
 };
 
+export type OAuthProvider = 'google' | 'microsoft';
+
+export type AuthSignInMethod = OAuthProvider | 'email';
+
 export interface AuthSession {
   user: User;
   token: string;
   expiresAt?: number;
+  provider?: AuthSignInMethod;
 }
 
 export interface LoginCredentials {
   email: string;
   password: string;
 }
-
-export type OAuthProvider = 'google' | 'microsoft';
 
 export type ProjectStatus = 'active' | 'archived';
 

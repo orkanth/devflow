@@ -4,7 +4,7 @@ import {
   inject,
   output,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,6 +21,7 @@ import { AuthStore, UserStore } from '@devflow/web-data-access';
     MatIconModule,
     MatMenuModule,
     MatDividerModule,
+    RouterLink,
   ],
   templateUrl: './shell-header.component.html',
   styleUrl: './shell-header.component.scss',
