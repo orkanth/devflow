@@ -77,6 +77,13 @@ export class TaskCardComponent implements OnInit {
     return this.permissions.canAssignTaskTo(userId);
   }
 
+  async assignToSelf(task: Task): Promise<void> {
+    const userId = this.assignableUsers()[0]?.id;
+    if (userId) {
+      await this.assignTo(task, userId);
+    }
+  }
+
   async assignTo(task: Task, assigneeId: string | null): Promise<void> {
     if (!this.canShowAssignOption(assigneeId)) {
       return;

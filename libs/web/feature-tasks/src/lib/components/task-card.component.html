@@ -70,7 +70,7 @@
                 <button
                   mat-menu-item
                   type="button"
-                  (click)="assignTo(task(), assignableUsers()[0]?.id ?? null)"
+                  (click)="assignToSelf(task())"
                 >
                   <mat-icon>person_add</mat-icon>
                   <span>Assign to me</span>
