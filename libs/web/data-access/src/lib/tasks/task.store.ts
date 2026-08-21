@@ -7,8 +7,14 @@ import {
   UpdateTaskDto,
 } from '@devflow/shared-types';
 import { firstValueFrom } from 'rxjs';
+import { AuthStore } from '../auth/auth.store';
+import {
+  canAssignTaskTo,
+  canCreateTasks,
+  canDeleteTasks,
+  canEditTasks,
+} from '../auth/role-permissions.util';
 import { TaskDataService } from './task-data.service';
-import { RolePermissionsService } from '../auth/role-permissions.service';
 
 interface TaskState {
   tasks: Task[];
@@ -31,7 +37,7 @@ const initialState: TaskState = {
 @Injectable({ providedIn: 'root' })
 export class TaskStore {
   private readonly taskService = inject(TaskDataService);
-  private readonly permissions = inject(RolePermissionsService);
+  private readonly authStore = inject(AuthStore);
   private readonly state = signal<TaskState>(initialState);
 
   readonly tasks = computed(() => this.state().tasks);
@@ -124,11 +130,13 @@ export class TaskStore {
   }
 
   async createTask(data: CreateTaskDto): Promise<boolean> {
-    if (!this.permissions.canCreateTasks()) {
+    const role = this.authStore.currentUser()?.role;
+    const userId = this.authStore.currentUserId();
+    if (!canCreateTasks(role)) {
       this.patch({ error: 'You do not have permission to create tasks.' });
       return false;
     }
-    if (data.assigneeId && !this.permissions.canAssignTaskTo(data.assigneeId)) {
+    if (data.assigneeId && !canAssignTaskTo(role, userId, data.assigneeId)) {
       this.patch({ error: 'You can only assign tasks to yourself.' });
       return false;
     }
@@ -148,13 +156,15 @@ export class TaskStore {
   }
 
   async updateTask(id: string, data: UpdateTaskDto): Promise<boolean> {
-    if (!this.permissions.canEditTasks()) {
+    const role = this.authStore.currentUser()?.role;
+    const userId = this.authStore.currentUserId();
+    if (!canEditTasks(role)) {
       this.patch({ error: 'You do not have permission to edit tasks.' });
       return false;
     }
     if (
       data.assigneeId !== undefined &&
-      !this.permissions.canAssignTaskTo(data.assigneeId)
+      !canAssignTaskTo(role, userId, data.assigneeId)
     ) {
       this.patch({ error: 'You can only assign tasks to yourself.' });
       return false;
@@ -190,7 +200,7 @@ export class TaskStore {
     newStatus: TaskStatus,
     columnIndex?: number,
   ): Promise<boolean> {
-    if (!this.permissions.canEditTasks()) {
+    if (!canEditTasks(this.authStore.currentUser()?.role)) {
       return false;
     }
 
@@ -204,7 +214,7 @@ export class TaskStore {
   }
 
   async deleteTask(id: string): Promise<boolean> {
-    if (!this.permissions.canDeleteTasks()) {
+    if (!canDeleteTasks(this.authStore.currentUser()?.role)) {
       this.patch({ error: 'You do not have permission to delete tasks.' });
       return false;
     }

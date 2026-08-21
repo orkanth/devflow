@@ -5,8 +5,9 @@ import {
   User,
 } from '@devflow/shared-types';
 import { firstValueFrom } from 'rxjs';
+import { AuthStore } from '../auth/auth.store';
+import { canManageUsers } from '../auth/role-permissions.util';
 import { UserDataService } from './user-data.service';
-import { RolePermissionsService } from '../auth/role-permissions.service';
 
 interface UserState {
   users: User[];
@@ -25,7 +26,7 @@ const initialState: UserState = {
 @Injectable({ providedIn: 'root' })
 export class UserStore {
   private readonly userService = inject(UserDataService);
-  private readonly permissions = inject(RolePermissionsService);
+  private readonly authStore = inject(AuthStore);
   private readonly state = signal<UserState>(initialState);
 
   readonly users = computed(() => this.state().users);
@@ -91,7 +92,7 @@ export class UserStore {
   }
 
   async createUser(data: CreateUserDto): Promise<boolean> {
-    if (!this.permissions.canManageUsers()) {
+    if (!canManageUsers(this.authStore.currentUser()?.role)) {
       this.patch({ error: 'Only admins can create users.' });
       return false;
     }
@@ -111,7 +112,7 @@ export class UserStore {
   }
 
   async updateUser(id: string, data: UpdateUserDto): Promise<boolean> {
-    if (!this.permissions.canManageUsers()) {
+    if (!canManageUsers(this.authStore.currentUser()?.role)) {
       this.patch({ error: 'Only admins can edit users.' });
       return false;
     }
@@ -131,7 +132,7 @@ export class UserStore {
   }
 
   async deleteUser(id: string): Promise<boolean> {
-    if (!this.permissions.canManageUsers()) {
+    if (!canManageUsers(this.authStore.currentUser()?.role)) {
       this.patch({ error: 'Only admins can delete users.' });
       return false;
     }

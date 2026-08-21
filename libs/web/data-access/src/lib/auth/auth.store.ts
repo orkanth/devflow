@@ -7,7 +7,6 @@ import {
 } from '@devflow/shared-types';
 import { firstValueFrom } from 'rxjs';
 import { MOCK_USERS } from '../users/mock-users.data';
-import { UserStore } from '../users/user.store';
 import {
   AUTH_PROVIDER_KEY,
   AUTH_TOKEN_KEY,
@@ -19,11 +18,11 @@ import { AuthDataService } from './auth-data.service';
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
   private readonly authService = inject(AuthDataService);
-  private readonly userStore = inject(UserStore);
 
   private readonly userId = signal<string | null>(null);
   private readonly token = signal<string | null>(null);
   private readonly signInMethod = signal<AuthSignInMethod | null>(null);
+  private readonly sessionUser = signal<User | null>(null);
   private readonly authError = signal<string | null>(null);
   private readonly authLoading = signal(false);
   private initialized = false;
@@ -35,13 +34,13 @@ export class AuthStore {
   readonly loading = computed(() => this.authLoading());
 
   readonly currentUser = computed(() => {
+    const cached = this.sessionUser();
     const id = this.userId();
     if (!id) {
       return null;
     }
-    const fromStore = this.userStore.usersById().get(id);
-    if (fromStore) {
-      return fromStore;
+    if (cached?.id === id) {
+      return cached;
     }
     return MOCK_USERS.find((user) => user.id === id) ?? null;
   });
@@ -57,7 +56,6 @@ export class AuthStore {
       return;
     }
     this.initialized = true;
-    await this.userStore.loadUsers();
 
     const storedToken = localStorage.getItem(AUTH_TOKEN_KEY);
     const storedUserId = localStorage.getItem(AUTH_USER_ID_KEY);
@@ -71,6 +69,10 @@ export class AuthStore {
       this.signInMethod.set(
         storedProvider ?? parseProviderFromToken(storedToken) ?? 'email',
       );
+      const user = MOCK_USERS.find((u) => u.id === storedUserId);
+      if (user) {
+        this.sessionUser.set(user);
+      }
     }
   }
 
@@ -119,6 +121,7 @@ export class AuthStore {
     this.token.set(null);
     this.userId.set(null);
     this.signInMethod.set(null);
+    this.sessionUser.set(null);
     this.authError.set(null);
   }
 
@@ -144,6 +147,7 @@ export class AuthStore {
     this.token.set(session.token);
     this.userId.set(session.user.id);
     this.signInMethod.set(provider);
+    this.sessionUser.set(session.user);
   }
 }
 
@@ -153,7 +157,9 @@ function parseProviderFromToken(token: string): AuthSignInMethod | null {
     if (!payloadPart) {
       return null;
     }
-    const payload = JSON.parse(atob(payloadPart)) as { provider?: AuthSignInMethod };
+    const payload = JSON.parse(atob(payloadPart)) as {
+      provider?: AuthSignInMethod;
+    };
     return payload.provider ?? null;
   } catch {
     return null;

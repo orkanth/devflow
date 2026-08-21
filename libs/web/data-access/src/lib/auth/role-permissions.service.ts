@@ -1,6 +1,17 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { User, UserRole } from '@devflow/shared-types';
 import { AuthStore } from './auth.store';
+import {
+  assignableUsers as filterAssignableUsers,
+  canAssignTaskTo as canAssignTaskToRole,
+  canAssignTasksToAnyone,
+  canCreateTasks,
+  canDeleteTasks,
+  canEditTasks,
+  canManageProjects,
+  canManageUsers,
+  roleLabel as formatRoleLabel,
+} from './role-permissions.util';
 
 @Injectable({ providedIn: 'root' })
 export class RolePermissionsService {
@@ -13,48 +24,32 @@ export class RolePermissionsService {
   readonly isMember = computed(() => this.role() === 'member');
   readonly isViewer = computed(() => this.role() === 'viewer');
 
-  readonly canManageUsers = computed(() => this.isAdmin());
-  readonly canManageProjects = computed(() => this.isAdmin());
-  readonly canCreateTasks = computed(() => this.isAdmin() || this.isMember());
-  readonly canEditTasks = computed(() => this.isAdmin() || this.isMember());
-  readonly canDeleteTasks = computed(() => this.isAdmin() || this.isMember());
-  readonly canAssignTasksToAnyone = computed(() => this.isAdmin());
+  readonly canManageUsers = computed(() => canManageUsers(this.role()));
+  readonly canManageProjects = computed(() => canManageProjects(this.role()));
+  readonly canCreateTasks = computed(() => canCreateTasks(this.role()));
+  readonly canEditTasks = computed(() => canEditTasks(this.role()));
+  readonly canDeleteTasks = computed(() => canDeleteTasks(this.role()));
+  readonly canAssignTasksToAnyone = computed(() =>
+    canAssignTasksToAnyone(this.role()),
+  );
 
   canAssignTaskTo(assigneeId: string | null | undefined): boolean {
-    if (this.isViewer()) {
-      return false;
-    }
-    if (this.isAdmin()) {
-      return true;
-    }
-    if (this.isMember()) {
-      const userId = this.currentUserId();
-      return !assigneeId || assigneeId === userId;
-    }
-    return false;
+    return canAssignTaskToRole(
+      this.role(),
+      this.currentUserId(),
+      assigneeId,
+    );
   }
 
   assignableUsers(users: User[]): User[] {
-    if (this.canAssignTasksToAnyone()) {
-      return users;
-    }
-    const userId = this.currentUserId();
-    if (!userId) {
-      return [];
-    }
-    return users.filter((user) => user.id === userId);
+    return filterAssignableUsers(
+      this.role(),
+      this.currentUserId(),
+      users,
+    );
   }
 
   roleLabel(role: UserRole | null): string {
-    switch (role) {
-      case 'admin':
-        return 'Admin';
-      case 'member':
-        return 'Member';
-      case 'viewer':
-        return 'Viewer';
-      default:
-        return 'User';
-    }
+    return formatRoleLabel(role);
   }
 }
