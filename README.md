@@ -112,6 +112,8 @@ import { Project, Task, User } from '@devflow/shared-types';
 - [x] **Phase A** — Angular Material + app shell (sidebar, header, routing)
 - [x] **Phase B** — Projects feature (Signal Store, Material table, CRUD dialog, mock data)
 - [x] **Phase C** — Tasks feature (Kanban board, CDK drag-drop, list view, TaskStore)
+- [x] **Phase D** — Users feature + task assignee (UserStore, assign on tasks)
+- [x] **Phase E** — Dashboard with My Tasks + AuthStore (mock current user)
 - [ ] **Phase 1** — NestJS API + MySQL (swap mock services for real API)
 - [ ] **Phase 2** — Angular shell + auth + layout
 - [ ] **Phase 3** — Projects feature (Signal Store)

@@ -1,0 +1,56 @@
+<mat-card class="my-tasks-panel">
+  <mat-card-header>
+    <mat-card-title>My tasks</mat-card-title>
+    <mat-card-subtitle>Assigned to {{ userName() }}</mat-card-subtitle>
+    <button
+      mat-button
+      type="button"
+      class="my-tasks-panel__view-all"
+      (click)="viewAll.emit()"
+    >
+      View all
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </mat-card-header>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <mat-card-content>
+    @if (tasks().length === 0 && !loading()) {
+      <div class="my-tasks-panel__empty">
+        <mat-icon>task_alt</mat-icon>
+        <p>No active tasks assigned to you. Great job!</p>
+      </div>
+    } @else {
+      <mat-nav-list class="my-tasks-list">
+        @for (task of tasks(); track task.id) {
+          <a mat-list-item class="my-tasks-list__item">
+            <mat-icon matListItemIcon>
+              @switch (task.status) {
+                @case ('done') {
+                  check_circle
+                }
+                @case ('in_progress') {
+                  pending
+                }
+                @default {
+                  radio_button_unchecked
+                }
+              }
+            </mat-icon>
+            <span matListItemTitle>{{ task.title }}</span>
+            <span matListItemLine class="my-tasks-list__meta">
+              {{ projectName(task.projectId) }} ·
+              <span [class]="priorityClass(task.priority)">{{ task.priority }}</span>
+            </span>
+            <mat-chip-set matListItemMeta>
+              <mat-chip class="status-chip">{{ statusLabel(task.status) }}</mat-chip>
+            </mat-chip-set>
+          </a>
+        }
+      </mat-nav-list>
+    }
+  </mat-card-content>
+</mat-card>

@@ -1,13 +1,16 @@
 import { Route } from '@angular/router';
 import { ShellLayoutComponent } from './layout/shell-layout.component';
-import { DashboardPageComponent } from './pages/dashboard-page.component';
 
 export const shellRoutes: Route[] = [
   {
     path: '',
     component: ShellLayoutComponent,
     children: [
-      { path: 'dashboard', component: DashboardPageComponent },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('@devflow/web-feature-dashboard').then((m) => m.dashboardRoutes),
+      },
       {
         path: 'projects',
         loadChildren: () =>

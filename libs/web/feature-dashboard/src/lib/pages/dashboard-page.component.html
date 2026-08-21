@@ -1,0 +1,50 @@
+<div class="dashboard">
+  <header class="dashboard__header">
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+      @if (currentUser(); as user) {
+        <p class="page-subtitle">Welcome back, {{ user.name }}</p>
+      }
+    </div>
+  </header>
+
+  @if (loading() && myTaskStats().total === 0) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <section class="dashboard__stats">
+    <df-dashboard-stat-card
+      label="My to do"
+      [value]="myTaskStats().todo"
+      icon="radio_button_unchecked"
+      color="blue"
+    />
+    <df-dashboard-stat-card
+      label="In progress"
+      [value]="myTaskStats().in_progress"
+      icon="pending"
+      color="amber"
+    />
+    <df-dashboard-stat-card
+      label="Completed"
+      [value]="myTaskStats().done"
+      icon="check_circle"
+      color="green"
+    />
+    <df-dashboard-stat-card
+      label="Active projects"
+      [value]="activeProjects()"
+      icon="folder"
+      color="slate"
+    />
+  </section>
+
+  <section class="dashboard__content">
+    <df-my-tasks-panel
+      [tasks]="myActiveTasks()"
+      [loading]="loading()"
+      [userName]="currentUser()?.name ?? 'You'"
+      (viewAll)="viewAllMyTasks()"
+    />
+  </section>
+</div>
