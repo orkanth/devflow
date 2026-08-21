@@ -1,12 +1,31 @@
 <mat-card class="tasks-chart-card">
-  <mat-card-header>
-    <mat-card-title>Task status</mat-card-title>
-    <mat-card-subtitle>{{ userName() }} — todo, in progress, and completed</mat-card-subtitle>
+  <mat-card-header class="tasks-chart-card__header">
+    <div class="tasks-chart-card__titles">
+      <mat-card-title>Project tasks</mat-card-title>
+      <mat-card-subtitle>
+        {{ selectedProjectName() }} — {{ stats().total }} tasks by status
+      </mat-card-subtitle>
+    </div>
+
+    <mat-form-field appearance="outline" class="tasks-chart-card__filter" subscriptSizing="dynamic">
+      <mat-label>Project</mat-label>
+      <mat-select
+        [value]="selectedProjectId()"
+        (valueChange)="onProjectSelect($event)"
+      >
+        <mat-option value="">All projects</mat-option>
+        @for (project of projects(); track project.id) {
+          <mat-option [value]="project.id">{{ project.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </mat-card-header>
+
   <mat-card-content>
     <div class="tasks-chart-card__canvas-wrap">
-      <canvas #chartCanvas aria-label="Bar chart of my tasks by status"></canvas>
+      <canvas #chartCanvas aria-label="Bar chart of tasks by status"></canvas>
     </div>
+
     <div class="tasks-chart-card__legend">
       <span class="legend-item legend-item--todo">
         <span class="legend-dot"></span>
@@ -21,5 +40,32 @@
         Done ({{ stats().done }})
       </span>
     </div>
+
+    <section class="tasks-chart-card__list-section">
+      <h3 class="tasks-chart-card__list-title">All tasks</h3>
+
+      @if (tasks().length === 0) {
+        <df-empty-state
+          icon="task_alt"
+          title="No tasks found"
+          message="There are no tasks for this project selection."
+        />
+      } @else {
+        <mat-nav-list class="tasks-chart-list">
+          @for (task of tasks(); track task.id) {
+            <div mat-list-item class="tasks-chart-list__item">
+              <mat-icon matListItemIcon>{{ statusIcon(task.status) }}</mat-icon>
+              <span matListItemTitle>{{ task.title }}</span>
+              <span matListItemLine class="tasks-chart-list__meta">
+                {{ task.priority }} priority
+              </span>
+              <mat-chip-set matListItemMeta>
+                <mat-chip class="status-chip">{{ statusLabel(task.status) }}</mat-chip>
+              </mat-chip-set>
+            </div>
+          }
+        </mat-nav-list>
+      }
+    </section>
   </mat-card-content>
 </mat-card>

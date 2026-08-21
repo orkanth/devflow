@@ -41,8 +41,11 @@
 
   <section class="dashboard__content">
     <df-my-tasks-chart
-      [stats]="myTaskStats()"
-      [userName]="currentUser()?.name ?? 'You'"
+      [stats]="chartTaskStats()"
+      [tasks]="chartTasks()"
+      [projects]="projects()"
+      [selectedProjectId]="chartProjectId()"
+      (projectChange)="chartProjectId.set($event)"
     />
     <df-my-tasks-panel
       [tasks]="myActiveTasks()"

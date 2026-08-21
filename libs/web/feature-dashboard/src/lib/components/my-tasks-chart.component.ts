@@ -6,27 +6,47 @@ import {
   ElementRef,
   input,
   OnDestroy,
+  output,
   viewChild,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { Project, Task, TASK_STATUS_LABELS } from '@devflow/shared-types';
+import { DfEmptyStateComponent } from '@devflow/shared-ui';
 import { Chart, ChartConfiguration } from 'chart.js/auto';
 
 export interface MyTasksChartStats {
   todo: number;
   in_progress: number;
   done: number;
+  total: number;
 }
 
 @Component({
   selector: 'df-my-tasks-chart',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule],
+  imports: [
+    MatCardModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatListModule,
+    MatIconModule,
+    DfEmptyStateComponent,
+  ],
   templateUrl: './my-tasks-chart.component.html',
   styleUrl: './my-tasks-chart.component.scss',
 })
 export class MyTasksChartComponent implements AfterViewInit, OnDestroy {
   readonly stats = input.required<MyTasksChartStats>();
-  readonly userName = input('You');
+  readonly tasks = input.required<Task[]>();
+  readonly projects = input.required<Project[]>();
+  readonly selectedProjectId = input<string>('');
+  readonly projectChange = output<string>();
 
   private readonly canvasRef =
     viewChild<ElementRef<HTMLCanvasElement>>('chartCanvas');
@@ -50,6 +70,33 @@ export class MyTasksChartComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.chart?.destroy();
+  }
+
+  selectedProjectName(): string {
+    const projectId = this.selectedProjectId();
+    if (!projectId) {
+      return 'All projects';
+    }
+    return this.projects().find((p) => p.id === projectId)?.name ?? 'Project';
+  }
+
+  statusLabel(status: Task['status']): string {
+    return TASK_STATUS_LABELS[status];
+  }
+
+  statusIcon(status: Task['status']): string {
+    switch (status) {
+      case 'done':
+        return 'check_circle';
+      case 'in_progress':
+        return 'pending';
+      default:
+        return 'radio_button_unchecked';
+    }
+  }
+
+  onProjectSelect(projectId: string): void {
+    this.projectChange.emit(projectId);
   }
 
   private updateChart(): void {

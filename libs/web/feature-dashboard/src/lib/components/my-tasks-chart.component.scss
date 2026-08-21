@@ -3,8 +3,26 @@
   box-shadow: none;
 }
 
+.tasks-chart-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 0;
+}
+
+.tasks-chart-card__titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.tasks-chart-card__filter {
+  width: min(220px, 100%);
+  margin-top: 4px;
+}
+
 .tasks-chart-card__canvas-wrap {
-  height: 280px;
+  height: 240px;
   margin-top: 8px;
 }
 
@@ -41,4 +59,48 @@
 
 .legend-item--done .legend-dot {
   background: #16a34a;
+}
+
+.tasks-chart-card__list-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.tasks-chart-card__list-title {
+  margin: 0 0 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.tasks-chart-list {
+  max-height: 280px;
+  overflow-y: auto;
+  padding-top: 0;
+}
+
+.tasks-chart-list__item {
+  height: auto;
+  min-height: 56px;
+}
+
+.tasks-chart-list__meta {
+  color: #64748b;
+  font-size: 0.8125rem;
+}
+
+.status-chip {
+  font-size: 11px;
+  min-height: 24px;
+}
+
+@media (max-width: 600px) {
+  .tasks-chart-card__header {
+    flex-direction: column;
+  }
+
+  .tasks-chart-card__filter {
+    width: 100%;
+  }
 }

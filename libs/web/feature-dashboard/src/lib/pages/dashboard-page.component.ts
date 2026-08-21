@@ -4,6 +4,7 @@ import {
   computed,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -38,9 +39,46 @@ export class DashboardPageComponent implements OnInit {
   private readonly router = inject(Router);
 
   readonly currentUser = this.authStore.currentUser;
+  readonly projects = this.projectStore.projects;
+  readonly chartProjectId = signal<string>('');
+
   readonly loading = computed(
     () => this.taskStore.loading() || this.projectStore.loading(),
   );
+
+  readonly chartTasks = computed(() => {
+    const projectId = this.chartProjectId();
+    let tasks = this.taskStore.tasks();
+
+    if (projectId) {
+      tasks = tasks.filter((task) => task.projectId === projectId);
+    }
+
+    const statusOrder: Record<Task['status'], number> = {
+      in_progress: 0,
+      todo: 1,
+      done: 2,
+    };
+
+    return [...tasks].sort((a, b) => {
+      const statusDiff = statusOrder[a.status] - statusOrder[b.status];
+      if (statusDiff !== 0) {
+        return statusDiff;
+      }
+      return a.title.localeCompare(b.title);
+    });
+  });
+
+  readonly chartTaskStats = computed(() => {
+    const tasks = this.chartTasks();
+
+    return {
+      todo: tasks.filter((t) => t.status === 'todo').length,
+      in_progress: tasks.filter((t) => t.status === 'in_progress').length,
+      done: tasks.filter((t) => t.status === 'done').length,
+      total: tasks.length,
+    };
+  });
 
   readonly myTaskStats = computed(() => {
     const userId = this.currentUser()?.id;
