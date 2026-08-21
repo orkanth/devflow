@@ -1,0 +1,31 @@
+.df-action-edit {
+  color: #2563eb;
+
+  &:hover {
+    background-color: rgba(37, 99, 235, 0.08);
+  }
+}
+
+.df-action-delete {
+  color: #dc2626;
+
+  &:hover {
+    background-color: rgba(220, 38, 38, 0.08);
+  }
+}
+
+.mat-mdc-menu-item.df-menu-item-edit {
+  color: #2563eb;
+
+  mat-icon {
+    color: #2563eb;
+  }
+}
+
+.mat-mdc-menu-item.df-menu-item-delete {
+  color: #dc2626;
+
+  mat-icon {
+    color: #dc2626;
+  }
+}

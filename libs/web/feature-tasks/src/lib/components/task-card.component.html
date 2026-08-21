@@ -76,13 +76,13 @@
                 </button>
               }
 
-              <button mat-menu-item type="button" (click)="edit.emit(task())">
+              <button mat-menu-item type="button" class="df-menu-item-edit" (click)="edit.emit(task())">
                 <mat-icon>edit</mat-icon>
                 <span>Edit</span>
               </button>
             }
             @if (canDeleteTasks()) {
-              <button mat-menu-item type="button" (click)="delete.emit(task())">
+              <button mat-menu-item type="button" class="df-menu-item-delete" (click)="delete.emit(task())">
                 <mat-icon>delete</mat-icon>
                 <span>Delete</span>
               </button>
