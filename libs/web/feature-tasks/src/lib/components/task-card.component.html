@@ -12,10 +12,47 @@
           type="button"
           aria-label="Task actions"
           [matMenuTriggerFor]="menu"
+          (click)="$event.stopPropagation()"
         >
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            type="button"
+            [matMenuTriggerFor]="assignMenu"
+            aria-label="Assign task"
+          >
+            <mat-icon>person_add</mat-icon>
+            <span>Assign to</span>
+          </button>
+          <mat-menu #assignMenu="matMenu">
+            <button
+              mat-menu-item
+              type="button"
+              (click)="assignTo(task(), null)"
+              [disabled]="!task().assigneeId"
+            >
+              @if (!task().assigneeId) {
+                <mat-icon>check</mat-icon>
+              }
+              <span>Unassigned</span>
+            </button>
+            <mat-divider />
+            @for (user of users(); track user.id) {
+              <button
+                mat-menu-item
+                type="button"
+                (click)="assignTo(task(), user.id)"
+              >
+                @if (isAssignedTo(task(), user.id)) {
+                  <mat-icon>check</mat-icon>
+                }
+                <span>{{ user.name }}</span>
+              </button>
+            }
+          </mat-menu>
+
           <button mat-menu-item type="button" (click)="edit.emit(task())">
             <mat-icon>edit</mat-icon>
             <span>Edit</span>
