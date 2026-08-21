@@ -2,12 +2,13 @@
   <mat-sidenav
     #sidenav
     class="shell-sidenav"
+    [class.shell-sidenav--collapsed]="sidebarCollapsed() && !isMobile()"
     [mode]="sidenavMode()"
     [opened]="sidenavOpened()"
     (closed)="onSidenavClosed()"
     (opened)="onSidenavOpened()"
   >
-    <df-shell-sidebar />
+    <df-shell-sidebar [collapsed]="sidebarCollapsed() && !isMobile()" />
   </mat-sidenav>
 
   <mat-sidenav-content class="shell-content">

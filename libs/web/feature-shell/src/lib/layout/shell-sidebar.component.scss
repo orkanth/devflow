@@ -61,3 +61,32 @@
     color: #60a5fa;
   }
 }
+
+.sidebar--collapsed {
+  .sidebar__brand {
+    justify-content: center;
+    padding: 20px 8px 16px;
+  }
+
+  .sidebar__nav {
+    padding: 8px 4px;
+  }
+
+  .sidebar__nav a {
+    justify-content: center;
+  }
+
+  .sidebar__footer {
+    padding: 12px 4px;
+  }
+
+  .sidebar__logout {
+    justify-content: center;
+    min-width: 0;
+    padding: 8px;
+
+    mat-icon {
+      margin-right: 0;
+    }
+  }
+}

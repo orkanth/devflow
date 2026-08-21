@@ -1,8 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthStore } from '@devflow/web-data-access';
 
@@ -19,6 +25,7 @@ interface NavItem {
     MatListModule,
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
     RouterLink,
     RouterLinkActive,
   ],
@@ -28,6 +35,8 @@ interface NavItem {
 export class ShellSidebarComponent {
   private readonly authStore = inject(AuthStore);
   private readonly router = inject(Router);
+
+  readonly collapsed = input(false);
 
   readonly navItems: NavItem[] = [
     { label: 'Dashboard', route: '/dashboard', icon: 'dashboard' },
