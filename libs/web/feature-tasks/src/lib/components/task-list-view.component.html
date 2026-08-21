@@ -64,7 +64,11 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+    <tr
+      mat-header-row
+      *matHeaderRowDef="displayedColumns()"
+      class="task-table__header-row"
+    ></tr>
     <tr
       mat-row
       *matRowDef="let row; columns: displayedColumns()"

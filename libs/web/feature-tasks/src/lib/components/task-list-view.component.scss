@@ -9,6 +9,24 @@
   width: 100%;
 }
 
+.task-table__header-row {
+  background: #f8fafc;
+}
+
+.task-table__header-row th {
+  color: #0f172a;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-bottom: 2px solid #cbd5e1;
+  background: #f8fafc;
+}
+
+.task-table__header-row .actions-header {
+  text-align: right;
+}
+
 .task-row td {
   border-bottom-color: #e2e8f0;
   transition: background 0.15s ease;
