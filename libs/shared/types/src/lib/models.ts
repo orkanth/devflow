@@ -18,6 +18,18 @@ export interface Project {
   createdAt: Date;
 }
 
+export interface CreateProjectDto {
+  name: string;
+  description: string;
+  status?: ProjectStatus;
+}
+
+export interface UpdateProjectDto {
+  name?: string;
+  description?: string;
+  status?: ProjectStatus;
+}
+
 export type TaskStatus = 'todo' | 'in_progress' | 'done';
 export type TaskPriority = 'low' | 'medium' | 'high';
 

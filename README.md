@@ -6,7 +6,7 @@ Enterprise Project & Task Management Platform — portfolio project for a Senior
 
 | Layer | Technology |
 |-------|------------|
-| Frontend | Angular 22 (Signals, Standalone Components, OnPush) |
+| Frontend | Angular 22 + **Angular Material** + CDK (Signals, Standalone, OnPush) |
 | Backend | NestJS 11 |
 | Database | MySQL 8 (coming in Phase 1) |
 | Monorepo | Nx 23 |
@@ -25,6 +25,8 @@ devflow/
 │       ├── types/           # Shared TypeScript interfaces (User, Project, Task)
 │       ├── ui/              # Reusable UI components
 │       └── utils/           # Shared utilities
+│   └── web/
+│       └── feature-shell/   # App shell (Material sidenav, header, routes)
 ```
 
 ## Prerequisites
@@ -107,7 +109,9 @@ import { Project, Task, User } from '@devflow/shared-types';
 ## Build Phases
 
 - [x] **Phase 0** — Nx monorepo setup
-- [ ] **Phase 1** — NestJS API + MySQL + shared types
+- [x] **Phase A** — Angular Material + app shell (sidebar, header, routing)
+- [x] **Phase B** — Projects feature (Signal Store, Material table, CRUD dialog, mock data)
+- [ ] **Phase 1** — NestJS API + MySQL (swap mock service for real API)
 - [ ] **Phase 2** — Angular shell + auth + layout
 - [ ] **Phase 3** — Projects feature (Signal Store)
 - [ ] **Phase 4** — Tasks feature (Kanban + Signals showcase)

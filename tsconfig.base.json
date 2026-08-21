@@ -18,7 +18,11 @@
       "@devflow/shared-types": ["./libs/shared/types/src/index.ts"],
       "@devflow/shared-utils": ["./libs/shared/utils/src/index.ts"],
       "@devflow/shared-ui": ["./libs/shared/ui/src/index.ts"],
-      "@devflow/web-feature-shell": ["./libs/web/feature-shell/src/index.ts"]
+      "@devflow/web-feature-shell": ["./libs/web/feature-shell/src/index.ts"],
+      "@devflow/web-data-access": ["./libs/web/data-access/src/index.ts"],
+      "@devflow/web-feature-projects": [
+        "./libs/web/feature-projects/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
