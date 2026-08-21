@@ -9,34 +9,41 @@
     </div>
 
     <h2 class="login-card__title">Sign in</h2>
-    <p class="login-card__subtitle">Choose how you want to access your workspace</p>
+    <p class="login-card__subtitle">Demo OAuth — try Google and Microsoft below</p>
 
     @if (error()) {
       <div class="login-card__error" role="alert">{{ error() }}</div>
     }
 
     <div class="login-oauth">
-      <button
-        mat-stroked-button
-        type="button"
-        class="login-oauth__btn login-oauth__btn--google"
-        [disabled]="loading()"
-        (click)="signInWithProvider('google')"
-      >
-        <span class="login-oauth__icon login-oauth__icon--google" aria-hidden="true"></span>
-        Continue with Google
-      </button>
-
-      <button
-        mat-stroked-button
-        type="button"
-        class="login-oauth__btn login-oauth__btn--microsoft"
-        [disabled]="loading()"
-        (click)="signInWithProvider('microsoft')"
-      >
-        <span class="login-oauth__icon login-oauth__icon--microsoft" aria-hidden="true"></span>
-        Continue with Microsoft
-      </button>
+      @for (provider of oauthProviders; track provider.provider) {
+        <button
+          mat-stroked-button
+          type="button"
+          class="login-oauth__btn"
+          [class.login-oauth__btn--google]="provider.provider === 'google'"
+          [class.login-oauth__btn--microsoft]="provider.provider === 'microsoft'"
+          [disabled]="loading()"
+          (click)="startOAuthDemo(provider.provider)"
+        >
+          @if (isProviderLoading(provider.provider)) {
+            <mat-spinner diameter="20" />
+          } @else {
+            <span
+              class="login-oauth__icon"
+              [class.login-oauth__icon--google]="provider.provider === 'google'"
+              [class.login-oauth__icon--microsoft]="provider.provider === 'microsoft'"
+              aria-hidden="true"
+            ></span>
+          }
+          <span class="login-oauth__label">
+            <span class="login-oauth__title">Continue with {{ provider.brandLabel }}</span>
+            <span class="login-oauth__demo">
+              Demo → {{ provider.demoUserName }} ({{ provider.demoUserRole }})
+            </span>
+          </span>
+        </button>
+      }
     </div>
 
     <div class="login-divider">
@@ -83,14 +90,40 @@
         label="Sign in with email"
         type="submit"
         icon="login"
-        [loading]="loading()"
+        [loading]="loading() && activeProvider() === null"
         [disabled]="loading()"
         (pressed)="submit()"
       />
     </form>
 
     <div class="login-demo">
-      <p class="login-demo__title">Demo accounts (password: <code>devflow123</code>)</p>
+      <p class="login-demo__title">Quick demo shortcuts</p>
+
+      <div class="login-demo__oauth">
+        @for (provider of oauthProviders; track provider.provider) {
+          <button
+            type="button"
+            class="login-demo__oauth-card"
+            [class.login-demo__oauth-card--google]="provider.provider === 'google'"
+            [class.login-demo__oauth-card--microsoft]="provider.provider === 'microsoft'"
+            [disabled]="loading()"
+            (click)="startOAuthDemo(provider.provider)"
+          >
+            <span
+              class="login-oauth__icon"
+              [class.login-oauth__icon--google]="provider.provider === 'google'"
+              [class.login-oauth__icon--microsoft]="provider.provider === 'microsoft'"
+              aria-hidden="true"
+            ></span>
+            <span class="login-demo__oauth-text">
+              <strong>{{ provider.brandLabel }} demo</strong>
+              <span>{{ provider.demoUserName }} · {{ provider.demoUserRole }}</span>
+            </span>
+          </button>
+        }
+      </div>
+
+      <p class="login-demo__subtitle">Email accounts (password: <code>devflow123</code>)</p>
       <div class="login-demo__list">
         @for (account of demoAccounts; track account.email) {
           <button
@@ -104,10 +137,5 @@
         }
       </div>
     </div>
-
-    <p class="login-card__note">
-      OAuth buttons use a mock flow for this portfolio build. Production apps should use
-      OIDC (Google / Microsoft) with your NestJS API.
-    </p>
   </mat-card>
 </div>

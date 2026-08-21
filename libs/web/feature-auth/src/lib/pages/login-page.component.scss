@@ -64,12 +64,43 @@
 
 .login-oauth__btn {
   width: 100%;
-  height: 44px;
-  justify-content: center;
-  gap: 10px;
+  height: auto;
+  min-height: 44px;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
   font-weight: 500;
   border-color: #e2e8f0;
   color: #0f172a;
+}
+
+.login-oauth__label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-align: left;
+}
+
+.login-oauth__title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.login-oauth__demo {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.login-oauth__btn--google:hover {
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.login-oauth__btn--microsoft:hover {
+  border-color: #7dd3fc;
+  background: #f0f9ff;
 }
 
 .login-oauth__icon {
@@ -108,6 +139,76 @@
   font-size: 0.6875rem;
   line-height: 1.5;
   color: #94a3b8;
+}
+
+.login-demo__oauth {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.login-demo__oauth-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.login-demo__oauth-card--google:hover:not(:disabled) {
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.login-demo__oauth-card--microsoft:hover:not(:disabled) {
+  border-color: #7dd3fc;
+  background: #f0f9ff;
+}
+
+.login-demo__oauth-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  strong {
+    font-size: 0.8125rem;
+    color: #0f172a;
+  }
+
+  span {
+    font-size: 0.6875rem;
+    color: #64748b;
+  }
+}
+
+.login-demo__subtitle {
+  margin: 0 0 10px;
+  font-size: 0.75rem;
+  color: #64748b;
+
+  code {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #334155;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-demo__oauth {
+    grid-template-columns: 1fr;
+  }
 }
 
 .login-card__error {
