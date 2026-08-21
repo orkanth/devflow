@@ -45,9 +45,11 @@
   font-size: 1.25rem;
   font-weight: 600;
 
-  .df-brand-logo {
-    width: 36px;
-    height: 36px;
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    color: #93c5fd;
   }
 }
 
@@ -143,9 +145,8 @@
   font-weight: 600;
   color: #0f172a;
 
-  .df-brand-logo {
-    width: 28px;
-    height: 28px;
+  mat-icon {
+    color: #2563eb;
   }
 
   @media (max-width: 900px) {
