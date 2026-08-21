@@ -3,13 +3,8 @@
 }
 
 .shell-sidenav {
-  width: 260px;
   border-right: none;
   transition: width 0.2s ease;
-}
-
-.shell-sidenav--collapsed {
-  width: 72px;
 }
 
 .shell-content {
