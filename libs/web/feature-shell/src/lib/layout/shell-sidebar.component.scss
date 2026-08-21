@@ -1,0 +1,41 @@
+.sidebar {
+  height: 100%;
+  background: var(--df-sidebar-bg);
+  color: var(--df-sidebar-text);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px 16px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  mat-icon {
+    color: #60a5fa;
+  }
+}
+
+.sidebar__nav {
+  padding: 8px;
+}
+
+.sidebar__nav a {
+  color: var(--df-sidebar-text);
+  border-radius: 8px;
+  margin-bottom: 4px;
+  text-decoration: none;
+}
+
+.sidebar__link--active {
+  background: rgba(37, 99, 235, 0.2);
+  color: #ffffff;
+
+  mat-icon {
+    color: #60a5fa;
+  }
+}

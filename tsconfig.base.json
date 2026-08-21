@@ -17,7 +17,8 @@
     "paths": {
       "@devflow/shared-types": ["./libs/shared/types/src/index.ts"],
       "@devflow/shared-utils": ["./libs/shared/utils/src/index.ts"],
-      "@devflow/shared-ui": ["./libs/shared/ui/src/index.ts"]
+      "@devflow/shared-ui": ["./libs/shared/ui/src/index.ts"],
+      "@devflow/web-feature-shell": ["./libs/web/feature-shell/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

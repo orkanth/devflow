@@ -1,0 +1,25 @@
+.shell-header {
+  background: var(--df-header-bg);
+  color: #0f172a;
+  border-bottom: 1px solid var(--df-header-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.shell-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.shell-header__logo {
+  color: var(--df-brand);
+}
+
+.shell-header__spacer {
+  flex: 1;
+}
