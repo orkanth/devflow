@@ -38,6 +38,8 @@ export interface LoginCredentials {
   password: string;
 }
 
+export type OAuthProvider = 'google' | 'microsoft';
+
 export type ProjectStatus = 'active' | 'archived';
 
 export interface Project {

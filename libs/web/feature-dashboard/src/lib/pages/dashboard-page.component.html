@@ -42,7 +42,6 @@
   <section class="dashboard__content">
     <df-my-tasks-chart
       [stats]="chartTaskStats()"
-      [tasks]="chartTasks()"
       [projects]="projects()"
       [selectedProjectId]="chartProjectId()"
       (projectChange)="chartProjectId.set($event)"

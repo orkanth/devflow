@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { LoginCredentials, User } from '@devflow/shared-types';
+import { LoginCredentials, OAuthProvider, User } from '@devflow/shared-types';
 import { firstValueFrom } from 'rxjs';
 import { MOCK_USERS } from '../users/mock-users.data';
 import { UserStore } from '../users/user.store';
@@ -78,6 +78,25 @@ export class AuthStore {
 
   async loginAsDemoUser(user: User): Promise<boolean> {
     return this.login({ email: user.email, password: MOCK_DEMO_PASSWORD });
+  }
+
+  async loginWithProvider(provider: OAuthProvider): Promise<boolean> {
+    this.authLoading.set(true);
+    this.authError.set(null);
+    try {
+      const session = await firstValueFrom(
+        this.authService.loginWithProvider(provider),
+      );
+      this.persistSession(session);
+      this.authLoading.set(false);
+      return true;
+    } catch {
+      this.authError.set(
+        'Social sign-in failed. Try again or use your email and password.',
+      );
+      this.authLoading.set(false);
+      return false;
+    }
   }
 
   logout(): void {

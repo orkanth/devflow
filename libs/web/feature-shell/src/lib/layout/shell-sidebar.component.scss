@@ -21,7 +21,29 @@
 }
 
 .sidebar__nav {
+  flex: 1;
   padding: 8px;
+  overflow-y: auto;
+}
+
+.sidebar__footer {
+  padding: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar__logout {
+  width: 100%;
+  justify-content: flex-start;
+  color: var(--df-sidebar-text);
+  border-radius: 8px;
+
+  mat-icon {
+    margin-right: 8px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
 }
 
 .sidebar__nav a {

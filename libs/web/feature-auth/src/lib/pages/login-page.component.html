@@ -9,11 +9,41 @@
     </div>
 
     <h2 class="login-card__title">Sign in</h2>
-    <p class="login-card__subtitle">Use your workspace credentials</p>
+    <p class="login-card__subtitle">Choose how you want to access your workspace</p>
 
     @if (error()) {
       <div class="login-card__error" role="alert">{{ error() }}</div>
     }
+
+    <div class="login-oauth">
+      <button
+        mat-stroked-button
+        type="button"
+        class="login-oauth__btn login-oauth__btn--google"
+        [disabled]="loading()"
+        (click)="signInWithProvider('google')"
+      >
+        <span class="login-oauth__icon login-oauth__icon--google" aria-hidden="true"></span>
+        Continue with Google
+      </button>
+
+      <button
+        mat-stroked-button
+        type="button"
+        class="login-oauth__btn login-oauth__btn--microsoft"
+        [disabled]="loading()"
+        (click)="signInWithProvider('microsoft')"
+      >
+        <span class="login-oauth__icon login-oauth__icon--microsoft" aria-hidden="true"></span>
+        Continue with Microsoft
+      </button>
+    </div>
+
+    <div class="login-divider">
+      <mat-divider />
+      <span>or sign in with email</span>
+      <mat-divider />
+    </div>
 
     <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field appearance="outline" class="full-width">
@@ -50,7 +80,7 @@
       </mat-form-field>
 
       <df-button
-        label="Sign in"
+        label="Sign in with email"
         type="submit"
         icon="login"
         [loading]="loading()"
@@ -74,5 +104,10 @@
         }
       </div>
     </div>
+
+    <p class="login-card__note">
+      OAuth buttons use a mock flow for this portfolio build. Production apps should use
+      OIDC (Google / Microsoft) with your NestJS API.
+    </p>
   </mat-card>
 </div>

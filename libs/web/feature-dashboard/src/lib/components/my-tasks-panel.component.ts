@@ -17,6 +17,7 @@ import { MOCK_PROJECTS } from '@devflow/web-data-access';
 @Component({
   selector: 'df-my-tasks-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'df-my-tasks-panel' },
   imports: [
     MatButtonModule,
     MatCardModule,
