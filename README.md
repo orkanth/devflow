@@ -56,11 +56,14 @@ npm run start:api
 ```
 
 API runs at [http://localhost:3000/api](http://localhost:3000/api)
+ 
+
 
 ## Nx Commands
 
 | Command | Description |
 |---------|-------------|
+| `npm run start` | Serve both Angular app and NestJs Api |
 | `npm run start:web` | Serve Angular app |
 | `npm run start:api` | Serve NestJS API |
 | `npm run build` | Build all projects |
