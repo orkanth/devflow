@@ -41,28 +41,34 @@ devflow/
 npm install
 ```
 
-### 2. Start the Angular app
+### 2. Start both apps (single command)
+
+```bash
+npm start
+```
+
+This runs **web** (Angular) and **api** (NestJS) together in one terminal.
+
+- Frontend: [http://localhost:4200](http://localhost:4200)
+- API: [http://localhost:3000/api](http://localhost:3000/api)
+
+### 3. Or start individually
 
 ```bash
 npm run start:web
 ```
 
-Open [http://localhost:4200](http://localhost:4200)
-
-### 3. Start the NestJS API
-
 ```bash
 npm run start:api
 ```
-
-API runs at [http://localhost:3000/api](http://localhost:3000/api)
 
 ## Nx Commands
 
 | Command | Description |
 |---------|-------------|
-| `npm run start:web` | Serve Angular app |
-| `npm run start:api` | Serve NestJS API |
+| `npm start` | Serve **web + api** together (one terminal) |
+| `npm run start:web` | Serve Angular app only |
+| `npm run start:api` | Serve NestJS API only |
 | `npm run build` | Build all projects |
 | `npm run test` | Run all tests |
 | `npm run lint` | Lint all projects |
