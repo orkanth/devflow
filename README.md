@@ -51,6 +51,7 @@ This runs **web** (Angular) and **api** (NestJS) together in one terminal.
 
 - Frontend: [http://localhost:4200](http://localhost:4200)
 - API: [http://localhost:3000/api](http://localhost:3000/api)
+- **Swagger UI**: [http://localhost:3000/docs](http://localhost:3000/docs)
 
 ### 3. Or start individually
 
