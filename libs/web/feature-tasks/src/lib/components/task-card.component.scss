@@ -8,7 +8,36 @@
   gap: 4px;
   padding: 12px;
   border: 1px solid #e2e8f0;
+  border-left-width: 4px;
   box-shadow: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.task-card--priority-low mat-card {
+  border-left-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.task-card--priority-medium mat-card {
+  border-left-color: #2563eb;
+  background: #eff6ff;
+}
+
+.task-card--priority-high mat-card {
+  border-left-color: #dc2626;
+  background: #fef2f2;
+}
+
+.task-card--priority-high .task-card__title {
+  color: #991b1b;
+}
+
+.task-card--priority-medium .task-card__title {
+  color: #1e40af;
+}
+
+.task-card--priority-low .task-card__title {
+  color: #334155;
 }
 
 .task-card.cdk-drag-preview mat-card {

@@ -33,7 +33,7 @@ import { OAuthProvider } from '@devflow/shared-types';
         ></span>
       }
       <span class="oauth-btn__label">
-        {{ provider() === 'google' ? 'Continue with Google' : 'Continue with Microsoft' }}
+        {{ provider() === 'google' ? 'Sign in with Google (Gmail)' : 'Sign in with Microsoft' }}
       </span>
     </button>
   `,

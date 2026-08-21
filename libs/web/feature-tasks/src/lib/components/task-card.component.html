@@ -1,5 +1,5 @@
 <div
-  class="task-card"
+  class="task-card task-card--priority-{{ task().priority }}"
   cdkDrag
   [cdkDragData]="task()"
   [cdkDragDisabled]="!canEditTasks()"

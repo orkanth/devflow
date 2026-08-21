@@ -48,8 +48,8 @@ export class LoginPageComponent {
   readonly activeProvider = signal<OAuthProvider | null>(null);
 
   readonly form = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    email: ['alex@devflow.dev', [Validators.required, Validators.email]],
+    password: ['devflow123', [Validators.required, Validators.minLength(6)]],
   });
 
   isProviderLoading(provider: OAuthProvider): boolean {

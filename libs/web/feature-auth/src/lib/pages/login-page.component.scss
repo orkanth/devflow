@@ -136,17 +136,56 @@
   gap: 4px;
 }
 
-.login-form__password-header {
-  display: flex;
+.login-panel__mobile-brand {
+  display: none;
   align-items: center;
-  justify-content: space-between;
-  margin: 4px 0 2px;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0f172a;
+
+  mat-icon {
+    color: #2563eb;
+  }
+
+  @media (max-width: 900px) {
+    display: flex;
+  }
 }
 
-.login-form__password-label {
+.login-oauth__heading {
+  margin: 0 0 10px;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.login-form__password-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin: -4px 0 8px;
+}
+
+.login-demo-hint {
+  margin: 20px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-size: 0.8125rem;
+  color: #475569;
+  line-height: 1.5;
+
+  code {
+    background: #e2e8f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #0f172a;
+    font-size: 0.75rem;
+  }
 }
 
 .login-forgot {
