@@ -1,10 +1,12 @@
 import { Route } from '@angular/router';
+import { authGuard } from '@devflow/web-feature-auth';
 import { ShellLayoutComponent } from './layout/shell-layout.component';
 
 export const shellRoutes: Route[] = [
   {
     path: '',
     component: ShellLayoutComponent,
+    canActivate: [authGuard],
     children: [
       {
         path: 'dashboard',

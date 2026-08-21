@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { UiModalService } from '@devflow/shared-ui';
 import { CreateTaskDto, Task } from '@devflow/shared-types';
 import { MOCK_PROJECTS, TaskStore, UserStore } from '@devflow/web-data-access';
 import { TaskFormDialogComponent, TaskFormDialogResult } from '../components/task-form-dialog.component';
@@ -42,6 +43,7 @@ export class TasksPageComponent implements OnInit {
   private readonly store = inject(TaskStore);
   private readonly userStore = inject(UserStore);
   private readonly dialog = inject(MatDialog);
+  private readonly modal = inject(UiModalService);
 
   readonly loading = this.store.loading;
   readonly error = this.store.error;
@@ -108,11 +110,19 @@ export class TasksPageComponent implements OnInit {
     });
   }
 
-  async deleteTask(task: Task): Promise<void> {
-    const confirmed = confirm(`Delete "${task.title}"?`);
-    if (confirmed) {
-      await this.store.deleteTask(task.id);
-    }
+  deleteTask(task: Task): void {
+    this.modal
+      .confirm({
+        title: 'Delete task',
+        message: `Delete "${task.title}"?`,
+        confirmLabel: 'Delete',
+        confirmColor: 'warn',
+      })
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.store.deleteTask(task.id);
+        }
+      });
   }
 
   dismissError(): void {

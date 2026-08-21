@@ -19,10 +19,14 @@
 
   <mat-card-content>
     @if (tasks().length === 0 && !loading()) {
-      <div class="my-tasks-panel__empty">
-        <mat-icon>task_alt</mat-icon>
-        <p>No active tasks assigned to you. Great job!</p>
-      </div>
+      <df-empty-state
+        icon="task_alt"
+        title="No active tasks assigned to you"
+        message="Great job! Tasks assigned to you will appear here."
+        actionLabel="Browse tasks"
+        actionIcon="arrow_forward"
+        (actionClick)="viewAll.emit()"
+      />
     } @else {
       <mat-nav-list class="my-tasks-list">
         @for (task of tasks(); track task.id) {

@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UiModalService } from '@devflow/shared-ui';
 import { Project, CreateProjectDto } from '@devflow/shared-types';
 import { ProjectStore } from '@devflow/web-data-access';
 import {
@@ -43,6 +44,7 @@ import { ProjectStatusChipComponent } from './project-status-chip.component';
 export class ProjectListComponent implements OnInit {
   private readonly store = inject(ProjectStore);
   private readonly dialog = inject(MatDialog);
+  private readonly modal = inject(UiModalService);
 
   readonly projects = this.store.filteredProjects;
   readonly loading = this.store.loading;
@@ -97,11 +99,19 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
-  async deleteProject(project: Project): Promise<void> {
-    const confirmed = confirm(`Delete "${project.name}"? This cannot be undone.`);
-    if (confirmed) {
-      await this.store.deleteProject(project.id);
-    }
+  deleteProject(project: Project): void {
+    this.modal
+      .confirm({
+        title: 'Delete project',
+        message: `Delete "${project.name}"? This cannot be undone.`,
+        confirmLabel: 'Delete',
+        confirmColor: 'warn',
+      })
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.store.deleteProject(project.id);
+        }
+      });
   }
 
   dismissError(): void {

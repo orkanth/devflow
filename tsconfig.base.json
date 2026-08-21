@@ -27,7 +27,8 @@
       "@devflow/web-feature-users": ["./libs/web/feature-users/src/index.ts"],
       "@devflow/web-feature-dashboard": [
         "./libs/web/feature-dashboard/src/index.ts"
-      ]
+      ],
+      "@devflow/web-feature-auth": ["./libs/web/feature-auth/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

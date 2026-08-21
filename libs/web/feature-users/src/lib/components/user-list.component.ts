@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UiModalService } from '@devflow/shared-ui';
 import { CreateUserDto, User } from '@devflow/shared-types';
 import { UserStore } from '@devflow/web-data-access';
 import {
@@ -41,6 +42,7 @@ import { UserRoleChipComponent } from './user-role-chip.component';
 export class UserListComponent implements OnInit {
   private readonly store = inject(UserStore);
   private readonly dialog = inject(MatDialog);
+  private readonly modal = inject(UiModalService);
 
   readonly users = this.store.filteredUsers;
   readonly loading = this.store.loading;
@@ -87,11 +89,19 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  async deleteUser(user: User): Promise<void> {
-    const confirmed = confirm(`Delete "${user.name}"?`);
-    if (confirmed) {
-      await this.store.deleteUser(user.id);
-    }
+  deleteUser(user: User): void {
+    this.modal
+      .confirm({
+        title: 'Delete user',
+        message: `Delete "${user.name}"?`,
+        confirmLabel: 'Delete',
+        confirmColor: 'warn',
+      })
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.store.deleteUser(user.id);
+        }
+      });
   }
 
   dismissError(): void {

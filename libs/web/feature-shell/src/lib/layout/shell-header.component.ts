@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnInit,
   output,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,20 +25,25 @@ import { AuthStore, UserStore } from '@devflow/web-data-access';
   templateUrl: './shell-header.component.html',
   styleUrl: './shell-header.component.scss',
 })
-export class ShellHeaderComponent implements OnInit {
+export class ShellHeaderComponent {
   private readonly authStore = inject(AuthStore);
   private readonly userStore = inject(UserStore);
+  private readonly router = inject(Router);
 
   readonly menuToggle = output<void>();
 
   readonly currentUser = this.authStore.currentUser;
   readonly users = this.userStore.users;
 
-  ngOnInit(): void {
-    this.authStore.initialize();
+  switchUser(userId: string): void {
+    const user = this.users().find((u) => u.id === userId);
+    if (user) {
+      this.authStore.loginAsDemoUser(user);
+    }
   }
 
-  switchUser(userId: string): void {
-    this.authStore.setCurrentUser(userId);
+  signOut(): void {
+    this.authStore.logout();
+    this.router.navigate(['/auth/login']);
   }
 }

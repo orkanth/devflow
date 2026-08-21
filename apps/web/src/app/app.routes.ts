@@ -1,9 +1,18 @@
 import { Route } from '@angular/router';
+import { shellRoutes } from '@devflow/web-feature-shell';
 
 export const appRoutes: Route[] = [
   {
-    path: '',
+    path: 'auth',
     loadChildren: () =>
-      import('@devflow/web-feature-shell').then((m) => m.shellRoutes),
+      import('@devflow/web-feature-auth').then((m) => m.authRoutes),
+  },
+  {
+    path: '',
+    children: shellRoutes,
+  },
+  {
+    path: '**',
+    redirectTo: '',
   },
 ];

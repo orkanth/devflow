@@ -27,6 +27,17 @@ export const USER_ROLE_LABELS: Record<UserRole, string> = {
   viewer: 'Viewer',
 };
 
+export interface AuthSession {
+  user: User;
+  token: string;
+  expiresAt?: number;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
 export type ProjectStatus = 'active' | 'archived';
 
 export interface Project {

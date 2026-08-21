@@ -58,5 +58,11 @@
         <span>{{ user.name }}</span>
       </button>
     }
+
+    <mat-divider />
+    <button mat-menu-item type="button" (click)="signOut()">
+      <mat-icon>logout</mat-icon>
+      <span>Sign out</span>
+    </button>
   </mat-menu>
 </mat-toolbar>

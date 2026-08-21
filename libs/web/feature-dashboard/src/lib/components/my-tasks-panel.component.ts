@@ -10,6 +10,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DfEmptyStateComponent } from '@devflow/shared-ui';
 import { Task, TASK_STATUS_LABELS } from '@devflow/shared-types';
 import { MOCK_PROJECTS } from '@devflow/web-data-access';
 
@@ -17,12 +18,13 @@ import { MOCK_PROJECTS } from '@devflow/web-data-access';
   selector: 'df-my-tasks-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatButtonModule,
     MatCardModule,
     MatListModule,
     MatIconModule,
-    MatButtonModule,
     MatChipsModule,
     MatProgressBarModule,
+    DfEmptyStateComponent,
   ],
   templateUrl: './my-tasks-panel.component.html',
   styleUrl: './my-tasks-panel.component.scss',
