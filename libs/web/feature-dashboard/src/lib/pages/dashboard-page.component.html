@@ -40,6 +40,10 @@
   </section>
 
   <section class="dashboard__content">
+    <df-my-tasks-chart
+      [stats]="myTaskStats()"
+      [userName]="currentUser()?.name ?? 'You'"
+    />
     <df-my-tasks-panel
       [tasks]="myActiveTasks()"
       [loading]="loading()"

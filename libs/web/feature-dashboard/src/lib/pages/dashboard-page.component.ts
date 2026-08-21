@@ -15,6 +15,7 @@ import {
   TaskStore,
 } from '@devflow/web-data-access';
 import { DashboardStatCardComponent } from '../components/dashboard-stat-card.component';
+import { MyTasksChartComponent } from '../components/my-tasks-chart.component';
 import { MyTasksPanelComponent } from '../components/my-tasks-panel.component';
 
 @Component({
@@ -24,6 +25,7 @@ import { MyTasksPanelComponent } from '../components/my-tasks-panel.component';
     MatCardModule,
     MatProgressBarModule,
     DashboardStatCardComponent,
+    MyTasksChartComponent,
     MyTasksPanelComponent,
   ],
   templateUrl: './dashboard-page.component.html',
