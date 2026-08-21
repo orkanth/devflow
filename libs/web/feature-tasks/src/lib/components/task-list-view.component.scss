@@ -10,17 +10,17 @@
 }
 
 .task-table__header-row {
-  background: #f8fafc;
+  background: linear-gradient(145deg, #1e3a8a 0%, #2563eb 100%);
 }
 
 .task-table__header-row th {
-  color: #0f172a;
+  color: #ffffff;
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  border-bottom: 2px solid #cbd5e1;
-  background: #f8fafc;
+  border-bottom: none;
+  background: transparent;
 }
 
 .task-table__header-row .actions-header {

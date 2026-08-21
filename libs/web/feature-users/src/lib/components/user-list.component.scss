@@ -49,6 +49,24 @@
   width: 100%;
 }
 
+.user-table__header-row {
+  background: linear-gradient(145deg, #1e3a8a 0%, #2563eb 100%);
+}
+
+.user-table__header-row th {
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-bottom: none;
+  background: transparent;
+}
+
+.user-table__header-row .actions-header {
+  text-align: right;
+}
+
 .user-name-cell {
   display: flex;
   align-items: center;
