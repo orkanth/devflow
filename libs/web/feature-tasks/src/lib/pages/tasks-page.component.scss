@@ -1,3 +1,8 @@
+.tasks-page {
+  width: 100%;
+  max-width: 100%;
+}
+
 .tasks-page__header {
   display: flex;
   align-items: flex-start;
@@ -31,12 +36,12 @@
   gap: 16px;
   flex-wrap: wrap;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .tasks-page__search {
   flex: 1;
   min-width: 220px;
-  max-width: 400px;
 }
 
 .tasks-page__project-filter,
