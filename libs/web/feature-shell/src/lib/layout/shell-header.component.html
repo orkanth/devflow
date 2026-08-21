@@ -1,0 +1,45 @@
+<mat-toolbar class="shell-header">
+  <button
+    mat-icon-button
+    type="button"
+    aria-label="Toggle navigation"
+    (click)="menuToggle.emit()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="shell-header__brand">
+    <mat-icon class="shell-header__logo">hub</mat-icon>
+    DevFlow
+  </span>
+
+  <span class="shell-header__spacer"></span>
+
+  <button mat-icon-button type="button" aria-label="Notifications">
+    <mat-icon>notifications</mat-icon>
+  </button>
+
+  <button
+    mat-icon-button
+    type="button"
+    aria-label="User menu"
+    [matMenuTriggerFor]="userMenu"
+  >
+    <mat-icon>account_circle</mat-icon>
+  </button>
+
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item type="button">
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </button>
+    <button mat-menu-item type="button">
+      <mat-icon>settings</mat-icon>
+      <span>Settings</span>
+    </button>
+    <button mat-menu-item type="button">
+      <mat-icon>logout</mat-icon>
+      <span>Sign out</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>

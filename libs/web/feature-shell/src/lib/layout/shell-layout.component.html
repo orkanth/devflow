@@ -1,0 +1,19 @@
+<mat-sidenav-container class="shell-container">
+  <mat-sidenav
+    #sidenav
+    class="shell-sidenav"
+    [mode]="sidenavMode()"
+    [opened]="sidenavOpened()"
+    (closed)="onSidenavClosed()"
+    (opened)="onSidenavOpened()"
+  >
+    <df-shell-sidebar />
+  </mat-sidenav>
+
+  <mat-sidenav-content class="shell-content">
+    <df-shell-header (menuToggle)="toggleSidenav()" />
+    <main class="shell-main">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
