@@ -43,3 +43,29 @@ export interface Task {
   assigneeId?: string;
   dueDate?: Date;
 }
+
+export interface CreateTaskDto {
+  projectId: string;
+  title: string;
+  description?: string;
+  status?: TaskStatus;
+  priority?: TaskPriority;
+  dueDate?: Date;
+}
+
+export interface UpdateTaskDto {
+  projectId?: string;
+  title?: string;
+  description?: string;
+  status?: TaskStatus;
+  priority?: TaskPriority;
+  dueDate?: Date;
+}
+
+export const TASK_STATUSES: TaskStatus[] = ['todo', 'in_progress', 'done'];
+
+export const TASK_STATUS_LABELS: Record<TaskStatus, string> = {
+  todo: 'To Do',
+  in_progress: 'In Progress',
+  done: 'Done',
+};

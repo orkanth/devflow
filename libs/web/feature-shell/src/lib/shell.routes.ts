@@ -1,7 +1,6 @@
 import { Route } from '@angular/router';
 import { ShellLayoutComponent } from './layout/shell-layout.component';
 import { DashboardPageComponent } from './pages/dashboard-page.component';
-import { TasksPageComponent } from './pages/tasks-page.component';
 
 export const shellRoutes: Route[] = [
   {
@@ -14,7 +13,11 @@ export const shellRoutes: Route[] = [
         loadChildren: () =>
           import('@devflow/web-feature-projects').then((m) => m.projectsRoutes),
       },
-      { path: 'tasks', component: TasksPageComponent },
+      {
+        path: 'tasks',
+        loadChildren: () =>
+          import('@devflow/web-feature-tasks').then((m) => m.tasksRoutes),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

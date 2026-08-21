@@ -1,0 +1,40 @@
+<div class="task-card" cdkDrag [cdkDragData]="task()">
+  <mat-card>
+    <div class="task-card__drag" cdkDragHandle aria-label="Drag task">
+      <mat-icon>drag_indicator</mat-icon>
+    </div>
+
+    <div class="task-card__body">
+      <div class="task-card__header">
+        <span class="task-card__title">{{ task().title }}</span>
+        <button
+          mat-icon-button
+          type="button"
+          aria-label="Task actions"
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item type="button" (click)="edit.emit(task())">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item type="button" (click)="delete.emit(task())">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </div>
+
+      @if (task().description) {
+        <p class="task-card__description">{{ task().description }}</p>
+      }
+
+      <div class="task-card__meta">
+        <df-task-priority-chip [priority]="task().priority" />
+        <span class="task-card__project">{{ projectName(task()) }}</span>
+      </div>
+    </div>
+  </mat-card>
+</div>

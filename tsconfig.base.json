@@ -22,7 +22,8 @@
       "@devflow/web-data-access": ["./libs/web/data-access/src/index.ts"],
       "@devflow/web-feature-projects": [
         "./libs/web/feature-projects/src/index.ts"
-      ]
+      ],
+      "@devflow/web-feature-tasks": ["./libs/web/feature-tasks/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

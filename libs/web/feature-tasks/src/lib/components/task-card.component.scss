@@ -1,0 +1,73 @@
+.task-card {
+  margin-bottom: 10px;
+  cursor: default;
+}
+
+.task-card mat-card {
+  display: flex;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: none;
+}
+
+.task-card.cdk-drag-preview mat-card {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+.task-card.cdk-drag-placeholder {
+  opacity: 0.4;
+}
+
+.task-card__drag {
+  display: flex;
+  align-items: flex-start;
+  color: #94a3b8;
+  cursor: grab;
+  padding-top: 2px;
+}
+
+.task-card__drag:active {
+  cursor: grabbing;
+}
+
+.task-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.task-card__title {
+  flex: 1;
+  font-weight: 500;
+  color: #0f172a;
+  line-height: 1.4;
+}
+
+.task-card__description {
+  margin: 8px 0 0;
+  font-size: 0.8125rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.task-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.task-card__project {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

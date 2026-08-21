@@ -1,0 +1,23 @@
+<div class="kanban-column">
+  <header class="kanban-column__header">
+    <h3 class="kanban-column__title">{{ label() }}</h3>
+    <span class="kanban-column__count">{{ count() }}</span>
+  </header>
+
+  <div
+    class="kanban-column__list"
+    cdkDropList
+    [cdkDropListData]="status()"
+    (cdkDropListDropped)="taskDrop.emit($event)"
+  >
+    @for (task of tasks(); track task.id) {
+      <df-task-card
+        [task]="task"
+        (edit)="taskEdit.emit($event)"
+        (delete)="taskDelete.emit($event)"
+      />
+    } @empty {
+      <p class="kanban-column__empty">No tasks</p>
+    }
+  </div>
+</div>
