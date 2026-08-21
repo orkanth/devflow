@@ -8,3 +8,9 @@
   --df-content-bg: #f8fafc;
   --df-brand: #2563eb;
 }
+
+.df-brand-logo {
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+}
